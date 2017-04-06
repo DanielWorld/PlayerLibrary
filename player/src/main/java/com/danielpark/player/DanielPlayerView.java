@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -42,6 +43,8 @@ import java.util.List;
 
 public class DanielPlayerView extends FrameLayout{
 
+    private final String TAG = "DanielPlayerView";
+
     private static final int SURFACE_TYPE_NONE = 0;
     private static final int SURFACE_TYPE_SURFACE_VIEW = 1;
     private static final int SURFACE_TYPE_TEXTURE_VIEW = 2;
@@ -60,6 +63,8 @@ public class DanielPlayerView extends FrameLayout{
     private boolean useArtwork;
     private Bitmap defaultArtwork;
     private int controllerShowTimeoutMs;
+
+    private boolean isLandscapeMode;
 
     public DanielPlayerView(Context context) {
         this(context, null);
@@ -216,6 +221,40 @@ public class DanielPlayerView extends FrameLayout{
         Assertions.checkState(contentFrame != null);
         contentFrame.setResizeMode(resizeMode);
     }
+
+    /**
+     * 화면 orientation 설정
+     * @param isLandscape
+     * @param targetWidth {@link DanielPlaybackControlView} 의 width size 설정, 전체 크기는 video size 와 동일
+     */
+    public void setLandscapeMode(boolean isLandscape, int targetWidth) {
+        if (this.isLandscapeMode == isLandscape || targetWidth == 0) return;
+
+        this.isLandscapeMode = isLandscape;
+
+        try {
+//            if (!isLandscapeMode) {
+                // Daniel (2017-04-06 18:15:12): width 는 deviceWidth 를 기준으로 처리
+                int height = playbackControlViewHeight * targetWidth / playbackControlViewWidth;
+
+                playbackControlViewWidth = targetWidth;
+                playbackControlViewHeight = height;
+
+                ViewGroup.LayoutParams layoutParams = controller.getLayoutParams();
+                layoutParams.width = targetWidth;
+                layoutParams.height = height;
+                controller.setLayoutParams(layoutParams);
+//            }
+//            else {
+//
+//            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private int playbackControlViewWidth = 0;
+    private int playbackControlViewHeight = 0;
 
     /**
      * Returns whether artwork is displayed if present in the media.
@@ -548,6 +587,52 @@ public class DanielPlayerView extends FrameLayout{
             if (contentFrame != null) {
                 float aspectRatio = height == 0 ? 1 : (width * pixelWidthHeightRatio) / height;
                 contentFrame.setAspectRatio(aspectRatio);
+            }
+
+            // Daniel (2017-04-06 17:30:41):
+            // 실제 video size 가 변경시 controller 부분 size 도 같이 변경이 되도록 구현
+            if (controller != null && width != 0 && height != 0) {
+                Log.i(TAG, "video size width : " + width);
+                Log.i(TAG, "video size height : " + height);
+                Log.i(TAG, "pixel width height ratio : " + pixelWidthHeightRatio);
+
+                try {
+                    if (!isLandscapeMode) {
+                        // Daniel (2017-04-06 17:55:29): 현재 Portrait 모드
+                        // TODO: Daniel (2017-04-06 17:40:26): 외부에서 받아온 resizeMode 에 맞춰서 controller resize 해줬으면 한다.
+                        int newWidth = DeviceUtil.getResolutionWidth(getContext());
+                        int newHeight = height * newWidth / width;
+
+                        playbackControlViewWidth = newWidth;
+                        playbackControlViewHeight = newHeight;
+
+                        Log.v(TAG, "newWidth : " + newWidth);
+                        Log.v(TAG, "newHeight : " + newHeight);
+
+                        ViewGroup.LayoutParams layoutParams = controller.getLayoutParams();
+                        layoutParams.width = newWidth;
+                        layoutParams.height = newHeight;
+                        controller.setLayoutParams(layoutParams);
+                    }
+                    else {
+                        // Daniel (2017-04-06 17:50:37): 현재 Landscape 모드
+                        int newWidth = DeviceUtil.getResolutionHeight(getContext());
+                        int newHeight = height * newWidth / width;
+
+                        playbackControlViewWidth = newWidth;
+                        playbackControlViewHeight = newHeight;
+
+                        Log.v(TAG, "newWidth : " + newWidth);
+                        Log.v(TAG, "newHeight : " + newHeight);
+
+                        ViewGroup.LayoutParams layoutParams = controller.getLayoutParams();
+                        layoutParams.width = newWidth;
+                        layoutParams.height = newHeight;
+                        controller.setLayoutParams(layoutParams);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
 

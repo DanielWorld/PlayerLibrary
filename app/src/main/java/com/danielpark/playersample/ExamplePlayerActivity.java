@@ -11,11 +11,11 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.danielpark.player.DanielPlaybackControlView;
 import com.danielpark.player.DanielPlayerView;
+import com.danielpark.player.DeviceUtil;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -47,7 +47,6 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.MappingTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
-import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
@@ -521,10 +520,17 @@ public class ExamplePlayerActivity extends Activity implements View.OnClickListe
             case ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED:
             case ActivityInfo.SCREEN_ORIENTATION_PORTRAIT:
             case ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT:
+                simpleExoPlayerView.setLandscapeMode(true,
+                        DeviceUtil.getResolutionHeight(this)
+                );
+
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                 break;
             case ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE:
             case ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE:
+                simpleExoPlayerView.setLandscapeMode(false,
+                        DeviceUtil.getResolutionHeight(this));
+
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 break;
         }

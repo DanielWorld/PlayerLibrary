@@ -144,7 +144,7 @@ public class DanielPlaybackControlView extends FrameLayout{
     public DanielPlaybackControlView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        int controllerLayoutId = com.danielpark.player.R.layout.simple_exo_playback_control_view;
+        int controllerLayoutId = com.danielpark.player.R.layout.daniel_playback_control_view;
         rewindMs = DEFAULT_REWIND_MS;
         fastForwardMs = DEFAULT_FAST_FORWARD_MS;
         showTimeoutMs = DEFAULT_SHOW_TIMEOUT_MS;
