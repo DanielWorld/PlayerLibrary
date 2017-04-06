@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -178,6 +179,7 @@ public class DanielPlaybackControlView extends FrameLayout{
             progressBar.setOnSeekBarChangeListener(componentListener);
             progressBar.setMax(PROGRESS_BAR_MAX);
         }
+
         playButton = findViewById(com.google.android.exoplayer2.R.id.exo_play);
         if (playButton != null) {
             playButton.setOnClickListener(componentListener);

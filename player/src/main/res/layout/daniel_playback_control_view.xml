@@ -17,10 +17,18 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:id="@id/exo_play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:src="@drawable/daniel_player_play_button" />
+        android:src="@drawable/weekfree_ic_learnplaybigbt" />
+
+    <ImageView
+        android:id="@id/exo_pause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/weekfree_ic_learnpausebigbt" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,13 +46,13 @@
             android:id="@id/exo_rew"
             style="@style/ExoMediaButton.Rewind" />
 
-        <ImageButton
-            android:id="@id/exo_play"
-            style="@style/ExoMediaButton.Play" />
+        <!--<ImageButton-->
+        <!--android:id="@id/exo_play"-->
+        <!--style="@style/ExoMediaButton.Play" />-->
 
-        <ImageButton
-            android:id="@id/exo_pause"
-            style="@style/ExoMediaButton.Pause" />
+        <!--<ImageButton-->
+        <!--android:id="@id/exo_pause"-->
+        <!--style="@style/ExoMediaButton.Pause" />-->
 
         <ImageButton
             android:id="@id/exo_ffwd"
@@ -82,8 +90,8 @@
             android:layout_height="32dp"
             android:layout_weight="1"
             android:focusable="false"
-            android:thumb="@drawable/daniel_player_seekbar_thumb"
-            android:progressDrawable="@drawable/daniel_player_seekbar_progressbar"/>
+            android:progressDrawable="@drawable/daniel_player_seekbar"
+            android:thumb="@drawable/weekfree_ic_playbarbig" />
 
         <TextView
             android:id="@id/exo_duration"
