@@ -358,6 +358,11 @@ public class CustomSimpleExoPlayerView extends FrameLayout{
         controller.setSeekDispatcher(seekDispatcher);
     }
 
+    public void setFullscreenListener(CustomPlaybackControlView.FullscreenListener fullscreenListener) {
+        Assertions.checkState(controller != null);
+        controller.setFullscreenListener(fullscreenListener);
+    }
+
     /**
      * Sets the rewind increment in milliseconds.
      *

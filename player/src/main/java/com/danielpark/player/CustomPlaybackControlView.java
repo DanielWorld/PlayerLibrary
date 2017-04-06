@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -65,6 +66,14 @@ public class CustomPlaybackControlView extends FrameLayout{
     }
 
     /**
+     * Fullscreen listener
+     */
+    interface FullscreenListener {
+
+        void onFullscreenMode();
+    }
+
+    /**
      * Default {@link CustomPlaybackControlView.SeekDispatcher} that dispatches seeks to the player without modification.
      */
     public static final CustomPlaybackControlView.SeekDispatcher DEFAULT_SEEK_DISPATCHER = new CustomPlaybackControlView.SeekDispatcher() {
@@ -94,6 +103,7 @@ public class CustomPlaybackControlView extends FrameLayout{
     private final TextView durationView;
     private final TextView positionView;
     private final SeekBar progressBar;
+    private final View fullscreenButton;
     private final StringBuilder formatBuilder;
     private final Formatter formatter;
     private final Timeline.Window currentWindow;
@@ -101,6 +111,7 @@ public class CustomPlaybackControlView extends FrameLayout{
     private ExoPlayer player;
     private CustomPlaybackControlView.SeekDispatcher seekDispatcher;
     private CustomPlaybackControlView.VisibilityListener visibilityListener;
+    private CustomPlaybackControlView.FullscreenListener fullscreenListener;
 
     private boolean isAttachedToWindow;
     private boolean dragging;
@@ -192,6 +203,10 @@ public class CustomPlaybackControlView extends FrameLayout{
         if (fastForwardButton != null) {
             fastForwardButton.setOnClickListener(componentListener);
         }
+        fullscreenButton = findViewById(com.danielpark.player.R.id.fullscreenBtn);
+        if (fullscreenButton != null) {
+            fullscreenButton.setOnClickListener(componentListener);
+        }
     }
 
     /**
@@ -237,6 +252,10 @@ public class CustomPlaybackControlView extends FrameLayout{
      */
     public void setSeekDispatcher(CustomPlaybackControlView.SeekDispatcher seekDispatcher) {
         this.seekDispatcher = seekDispatcher == null ? DEFAULT_SEEK_DISPATCHER : seekDispatcher;
+    }
+
+    public void setFullscreenListener(CustomPlaybackControlView.FullscreenListener fullscreenListener) {
+        this.fullscreenListener = fullscreenListener;
     }
 
     /**
@@ -693,6 +712,9 @@ public class CustomPlaybackControlView extends FrameLayout{
                     player.setPlayWhenReady(true);
                 } else if (pauseButton == view) {
                     player.setPlayWhenReady(false);
+                } else if (fullscreenButton == view) {
+                    if (fullscreenListener != null)
+                        fullscreenListener.onFullscreenMode();
                 }
             }
             hideAfterTimeout();

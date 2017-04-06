@@ -2,6 +2,7 @@ package com.danielpark.player;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -67,7 +68,7 @@ import java.util.UUID;
  * An activity that plays media using {@link SimpleExoPlayer}.
  */
 public class PlayerActivity extends Activity implements View.OnClickListener, ExoPlayer.EventListener,
-        CustomPlaybackControlView.VisibilityListener {
+        CustomPlaybackControlView.VisibilityListener, CustomPlaybackControlView.FullscreenListener {
 
     public static final String DRM_SCHEME_UUID_EXTRA = "drm_scheme_uuid";
     public static final String DRM_LICENSE_URL = "drm_license_url";
@@ -122,6 +123,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener, Ex
 
         simpleExoPlayerView = (CustomSimpleExoPlayerView) findViewById(R.id.player_view);
         simpleExoPlayerView.setControllerVisibilityListener(this);
+        simpleExoPlayerView.setFullscreenListener(this);
         simpleExoPlayerView.requestFocus();
     }
 
@@ -514,6 +516,36 @@ public class PlayerActivity extends Activity implements View.OnClickListener, Ex
     }
 
 
+    @Override
+    public void onFullscreenMode() {
+        switch (getRequestedOrientation()) {
+            case ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED:
+            case ActivityInfo.SCREEN_ORIENTATION_PORTRAIT:
+            case ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT:
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                break;
+            case ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE:
+            case ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE:
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                break;
+        }
+
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+//                    if (!isDestroyed())
+//                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
+////                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+//                }
+//            }
+//        }, 150);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
     public DataSource.Factory buildDataSourceFactory(DefaultBandwidthMeter bandwidthMeter) {
         return new DefaultDataSourceFactory(this, bandwidthMeter,
@@ -521,11 +553,10 @@ public class PlayerActivity extends Activity implements View.OnClickListener, Ex
     }
 
     public HttpDataSource.Factory buildHttpDataSourceFactory(DefaultBandwidthMeter bandwidthMeter) {
-        return new DefaultHttpDataSourceFactory( Util.getUserAgent(this, "BapulLearn"), bandwidthMeter);
+        return new DefaultHttpDataSourceFactory( Util.getUserAgent(this, "Lecture"), bandwidthMeter);
     }
 
     public boolean useExtensionRenderers() {
         return true;
     }
-
 }
