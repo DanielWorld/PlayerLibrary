@@ -40,7 +40,7 @@ import java.util.List;
  * Created by Daniel on 2017-04-06.
  */
 
-public class CustomSimpleExoPlayerView extends FrameLayout{
+public class DanielPlayerView extends FrameLayout{
 
     private static final int SURFACE_TYPE_NONE = 0;
     private static final int SURFACE_TYPE_SURFACE_VIEW = 1;
@@ -51,8 +51,8 @@ public class CustomSimpleExoPlayerView extends FrameLayout{
     private final View surfaceView;
     private final ImageView artworkView;
     private final SubtitleView subtitleView;
-    private final CustomPlaybackControlView controller;
-    private final CustomSimpleExoPlayerView.ComponentListener componentListener;
+    private final DanielPlaybackControlView controller;
+    private final DanielPlayerView.ComponentListener componentListener;
     private final FrameLayout overlayFrameLayout;
 
     private SimpleExoPlayer player;
@@ -61,15 +61,15 @@ public class CustomSimpleExoPlayerView extends FrameLayout{
     private Bitmap defaultArtwork;
     private int controllerShowTimeoutMs;
 
-    public CustomSimpleExoPlayerView(Context context) {
+    public DanielPlayerView(Context context) {
         this(context, null);
     }
 
-    public CustomSimpleExoPlayerView(Context context, AttributeSet attrs) {
+    public DanielPlayerView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CustomSimpleExoPlayerView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public DanielPlayerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         int playerLayoutId = com.google.android.exoplayer2.R.layout.exo_simple_player_view;
@@ -78,7 +78,7 @@ public class CustomSimpleExoPlayerView extends FrameLayout{
         boolean useController = true;
         int surfaceType = SURFACE_TYPE_SURFACE_VIEW;
         int resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT;
-        int controllerShowTimeoutMs = CustomPlaybackControlView.DEFAULT_SHOW_TIMEOUT_MS;
+        int controllerShowTimeoutMs = DanielPlaybackControlView.DEFAULT_SHOW_TIMEOUT_MS;
         if (attrs != null) {
             TypedArray a = context.getTheme().obtainStyledAttributes(attrs,
                     com.google.android.exoplayer2.R.styleable.SimpleExoPlayerView, 0, 0);
@@ -99,7 +99,7 @@ public class CustomSimpleExoPlayerView extends FrameLayout{
         }
 
         LayoutInflater.from(context).inflate(playerLayoutId, this);
-        componentListener = new CustomSimpleExoPlayerView.ComponentListener();
+        componentListener = new DanielPlayerView.ComponentListener();
         setDescendantFocusability(FOCUS_AFTER_DESCENDANTS);
 
         // Content frame.
@@ -145,7 +145,7 @@ public class CustomSimpleExoPlayerView extends FrameLayout{
         if (controllerPlaceholder != null) {
             // Note: rewindMs and fastForwardMs are passed via attrs, so we don't need to make explicit
             // calls to set them.
-            this.controller = new CustomPlaybackControlView(context, attrs);
+            this.controller = new DanielPlaybackControlView(context, attrs);
             controller.setLayoutParams(controllerPlaceholder.getLayoutParams());
             ViewGroup parent = ((ViewGroup) controllerPlaceholder.getParent());
             int controllerIndex = parent.indexOfChild(controllerPlaceholder);
@@ -338,27 +338,27 @@ public class CustomSimpleExoPlayerView extends FrameLayout{
     }
 
     /**
-     * Set the {@link CustomPlaybackControlView.VisibilityListener}.
+     * Set the {@link DanielPlaybackControlView.VisibilityListener}.
      *
      * @param listener The listener to be notified about visibility changes.
      */
-    public void setControllerVisibilityListener(CustomPlaybackControlView.VisibilityListener listener) {
+    public void setControllerVisibilityListener(DanielPlaybackControlView.VisibilityListener listener) {
         Assertions.checkState(controller != null);
         controller.setVisibilityListener(listener);
     }
 
     /**
-     * Sets the {@link CustomPlaybackControlView.SeekDispatcher}.
+     * Sets the {@link DanielPlaybackControlView.SeekDispatcher}.
      *
-     * @param seekDispatcher The {@link CustomPlaybackControlView.SeekDispatcher}, or null to use
-     *     {@link CustomPlaybackControlView#DEFAULT_SEEK_DISPATCHER}.
+     * @param seekDispatcher The {@link DanielPlaybackControlView.SeekDispatcher}, or null to use
+     *     {@link DanielPlaybackControlView#DEFAULT_SEEK_DISPATCHER}.
      */
-    public void setSeekDispatcher(CustomPlaybackControlView.SeekDispatcher seekDispatcher) {
+    public void setSeekDispatcher(DanielPlaybackControlView.SeekDispatcher seekDispatcher) {
         Assertions.checkState(controller != null);
         controller.setSeekDispatcher(seekDispatcher);
     }
 
-    public void setFullscreenListener(CustomPlaybackControlView.FullscreenListener fullscreenListener) {
+    public void setFullscreenListener(DanielPlaybackControlView.FullscreenListener fullscreenListener) {
         Assertions.checkState(controller != null);
         controller.setFullscreenListener(fullscreenListener);
     }

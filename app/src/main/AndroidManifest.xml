@@ -21,6 +21,11 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ExamplePlayerActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustResize|stateUnspecified"
+            />
+
     </application>
 
 </manifest>

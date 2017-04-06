@@ -7,7 +7,6 @@ import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.JsonReader;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +17,8 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.danielpark.player.PlayerActivity;
+import com.danielpark.player.DanielPlayerActivity;
+import com.danielpark.player.DanielPlayerView;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.upstream.DataSource;
@@ -49,7 +49,7 @@ public class SampleChooserActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_example);
+        setContentView(R.layout.activity_sample_chooser);
         Intent intent = getIntent();
         String dataUri = intent.getDataString();
         String[] uris;
@@ -377,12 +377,12 @@ public class SampleChooserActivity extends Activity {
         }
 
         public Intent buildIntent(Context context) {
-            Intent intent = new Intent(context, PlayerActivity.class);
-            intent.putExtra(PlayerActivity.PREFER_EXTENSION_DECODERS, preferExtensionDecoders);
+            Intent intent = new Intent(context, ExamplePlayerActivity.class);
+            intent.putExtra(DanielPlayerActivity.PREFER_EXTENSION_DECODERS, preferExtensionDecoders);
             if (drmSchemeUuid != null) {
-                intent.putExtra(PlayerActivity.DRM_SCHEME_UUID_EXTRA, drmSchemeUuid.toString());
-                intent.putExtra(PlayerActivity.DRM_LICENSE_URL, drmLicenseUrl);
-                intent.putExtra(PlayerActivity.DRM_KEY_REQUEST_PROPERTIES, drmKeyRequestProperties);
+                intent.putExtra(DanielPlayerActivity.DRM_SCHEME_UUID_EXTRA, drmSchemeUuid.toString());
+                intent.putExtra(DanielPlayerActivity.DRM_LICENSE_URL, drmLicenseUrl);
+                intent.putExtra(DanielPlayerActivity.DRM_KEY_REQUEST_PROPERTIES, drmKeyRequestProperties);
             }
             return intent;
         }
@@ -406,8 +406,8 @@ public class SampleChooserActivity extends Activity {
         public Intent buildIntent(Context context) {
             return super.buildIntent(context)
                     .setData(Uri.parse(uri))
-                    .putExtra(PlayerActivity.EXTENSION_EXTRA, extension)
-                    .setAction(PlayerActivity.ACTION_VIEW);
+                    .putExtra(DanielPlayerActivity.EXTENSION_EXTRA, extension)
+                    .setAction(DanielPlayerActivity.ACTION_VIEW);
         }
 
     }
@@ -432,9 +432,9 @@ public class SampleChooserActivity extends Activity {
                 extensions[i] = children[i].extension;
             }
             return super.buildIntent(context)
-                    .putExtra(PlayerActivity.URI_LIST_EXTRA, uris)
-                    .putExtra(PlayerActivity.EXTENSION_LIST_EXTRA, extensions)
-                    .setAction(PlayerActivity.ACTION_VIEW_LIST);
+                    .putExtra(DanielPlayerActivity.URI_LIST_EXTRA, uris)
+                    .putExtra(DanielPlayerActivity.EXTENSION_LIST_EXTRA, extensions)
+                    .setAction(DanielPlayerActivity.ACTION_VIEW_LIST);
         }
 
     }

@@ -10,7 +10,7 @@
         android:supportsRtl="true">
 
         <activity
-            android:name=".PlayerActivity"
+            android:name=".DanielPlayerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateUnspecified"/>
     </application>

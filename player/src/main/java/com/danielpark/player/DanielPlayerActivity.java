@@ -67,8 +67,8 @@ import java.util.UUID;
 /**
  * An activity that plays media using {@link SimpleExoPlayer}.
  */
-public class PlayerActivity extends Activity implements View.OnClickListener, ExoPlayer.EventListener,
-        CustomPlaybackControlView.VisibilityListener, CustomPlaybackControlView.FullscreenListener {
+public class DanielPlayerActivity extends Activity implements View.OnClickListener, ExoPlayer.EventListener,
+        DanielPlaybackControlView.VisibilityListener, DanielPlaybackControlView.FullscreenListener {
 
     public static final String DRM_SCHEME_UUID_EXTRA = "drm_scheme_uuid";
     public static final String DRM_LICENSE_URL = "drm_license_url";
@@ -92,7 +92,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener, Ex
 
     private Handler mainHandler;
     private EventLogger eventLogger;
-    private CustomSimpleExoPlayerView simpleExoPlayerView;
+    private DanielPlayerView simpleExoPlayerView;
 
     private DataSource.Factory mediaDataSourceFactory;
     private SimpleExoPlayer player;
@@ -121,7 +121,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener, Ex
         View rootView = findViewById(R.id.root);
         rootView.setOnClickListener(this);
 
-        simpleExoPlayerView = (CustomSimpleExoPlayerView) findViewById(R.id.player_view);
+        simpleExoPlayerView = (DanielPlayerView) findViewById(R.id.player_view);
         simpleExoPlayerView.setControllerVisibilityListener(this);
         simpleExoPlayerView.setFullscreenListener(this);
         simpleExoPlayerView.requestFocus();
@@ -517,7 +517,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener, Ex
 
 
     @Override
-    public void onFullscreenMode() {
+    public void onFullscreenItemClick() {
         switch (getRequestedOrientation()) {
             case ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED:
             case ActivityInfo.SCREEN_ORIENTATION_PORTRAIT:
