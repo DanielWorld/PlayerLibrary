@@ -78,11 +78,12 @@
 
         <SeekBar
             android:id="@id/exo_progress"
-            style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="0dp"
             android:layout_height="32dp"
             android:layout_weight="1"
-            android:focusable="false" />
+            android:focusable="false"
+            android:thumb="@drawable/daniel_player_seekbar_thumb"
+            android:progressDrawable="@drawable/daniel_player_seekbar_progressbar"/>
 
         <TextView
             android:id="@id/exo_duration"
@@ -100,7 +101,7 @@
             android:id="@+id/fullscreenBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_more" />
+            android:src="@drawable/daniel_player_fullscreen_button" />
 
     </LinearLayout>
 
