@@ -9,7 +9,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -32,7 +31,7 @@ import java.util.Locale;
  * Created by Daniel on 2017-04-06.
  */
 
-public class DanielPlaybackControlView extends FrameLayout{
+public class PlaybackControlView extends FrameLayout{
 
 
     /**
@@ -74,9 +73,9 @@ public class DanielPlaybackControlView extends FrameLayout{
     }
 
     /**
-     * Default {@link DanielPlaybackControlView.SeekDispatcher} that dispatches seeks to the player without modification.
+     * Default {@link PlaybackControlView.SeekDispatcher} that dispatches seeks to the player without modification.
      */
-    public static final DanielPlaybackControlView.SeekDispatcher DEFAULT_SEEK_DISPATCHER = new DanielPlaybackControlView.SeekDispatcher() {
+    public static final PlaybackControlView.SeekDispatcher DEFAULT_SEEK_DISPATCHER = new PlaybackControlView.SeekDispatcher() {
 
         @Override
         public boolean dispatchSeek(ExoPlayer player, int windowIndex, long positionMs) {
@@ -93,7 +92,7 @@ public class DanielPlaybackControlView extends FrameLayout{
     private static final int PROGRESS_BAR_MAX = 1000;
     private static final long MAX_POSITION_FOR_SEEK_TO_PREVIOUS = 3000;
 
-    private final DanielPlaybackControlView.ComponentListener componentListener;
+    private final PlaybackControlView.ComponentListener componentListener;
     private final View previousButton;
     private final View nextButton;
     private final View playButton;
@@ -109,9 +108,9 @@ public class DanielPlaybackControlView extends FrameLayout{
     private final Timeline.Window currentWindow;
 
     private ExoPlayer player;
-    private DanielPlaybackControlView.SeekDispatcher seekDispatcher;
-    private DanielPlaybackControlView.VisibilityListener visibilityListener;
-    private DanielPlaybackControlView.FullscreenListener fullscreenListener;
+    private PlaybackControlView.SeekDispatcher seekDispatcher;
+    private PlaybackControlView.VisibilityListener visibilityListener;
+    private PlaybackControlView.FullscreenListener fullscreenListener;
 
     private boolean isAttachedToWindow;
     private boolean dragging;
@@ -134,18 +133,18 @@ public class DanielPlaybackControlView extends FrameLayout{
         }
     };
 
-    public DanielPlaybackControlView(Context context) {
+    public PlaybackControlView(Context context) {
         this(context, null);
     }
 
-    public DanielPlaybackControlView(Context context, AttributeSet attrs) {
+    public PlaybackControlView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public DanielPlaybackControlView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PlaybackControlView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        int controllerLayoutId = com.danielpark.player.R.layout.daniel_playback_control_view;
+        int controllerLayoutId = com.danielpark.player.R.layout.playback_control_view;
         rewindMs = DEFAULT_REWIND_MS;
         fastForwardMs = DEFAULT_FAST_FORWARD_MS;
         showTimeoutMs = DEFAULT_SHOW_TIMEOUT_MS;
@@ -166,7 +165,7 @@ public class DanielPlaybackControlView extends FrameLayout{
         currentWindow = new Timeline.Window();
         formatBuilder = new StringBuilder();
         formatter = new Formatter(formatBuilder, Locale.getDefault());
-        componentListener = new DanielPlaybackControlView.ComponentListener();
+        componentListener = new PlaybackControlView.ComponentListener();
         seekDispatcher = DEFAULT_SEEK_DISPATCHER;
 
         LayoutInflater.from(context).inflate(controllerLayoutId, this);
@@ -237,25 +236,25 @@ public class DanielPlaybackControlView extends FrameLayout{
     }
 
     /**
-     * Sets the {@link DanielPlaybackControlView.VisibilityListener}.
+     * Sets the {@link PlaybackControlView.VisibilityListener}.
      *
      * @param listener The listener to be notified about visibility changes.
      */
-    public void setVisibilityListener(DanielPlaybackControlView.VisibilityListener listener) {
+    public void setVisibilityListener(PlaybackControlView.VisibilityListener listener) {
         this.visibilityListener = listener;
     }
 
     /**
-     * Sets the {@link DanielPlaybackControlView.SeekDispatcher}.
+     * Sets the {@link PlaybackControlView.SeekDispatcher}.
      *
-     * @param seekDispatcher The {@link DanielPlaybackControlView.SeekDispatcher}, or null to use
+     * @param seekDispatcher The {@link PlaybackControlView.SeekDispatcher}, or null to use
      *     {@link #DEFAULT_SEEK_DISPATCHER}.
      */
-    public void setSeekDispatcher(DanielPlaybackControlView.SeekDispatcher seekDispatcher) {
+    public void setSeekDispatcher(PlaybackControlView.SeekDispatcher seekDispatcher) {
         this.seekDispatcher = seekDispatcher == null ? DEFAULT_SEEK_DISPATCHER : seekDispatcher;
     }
 
-    public void setFullscreenListener(DanielPlaybackControlView.FullscreenListener fullscreenListener) {
+    public void setFullscreenListener(PlaybackControlView.FullscreenListener fullscreenListener) {
         this.fullscreenListener = fullscreenListener;
     }
 

@@ -13,8 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.danielpark.player.DanielPlaybackControlView;
-import com.danielpark.player.DanielPlayerView;
+import com.danielpark.player.PlaybackControlView;
+import com.danielpark.player.PlayerView;
 import com.danielpark.player.DeviceUtil;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -65,7 +65,7 @@ import java.util.UUID;
  */
 
 public class ExamplePlayerActivity extends Activity implements View.OnClickListener, ExoPlayer.EventListener,
-        DanielPlaybackControlView.VisibilityListener, DanielPlaybackControlView.FullscreenListener {
+        PlaybackControlView.VisibilityListener, PlaybackControlView.FullscreenListener {
 
 
     public static final String DRM_SCHEME_UUID_EXTRA = "drm_scheme_uuid";
@@ -90,7 +90,7 @@ public class ExamplePlayerActivity extends Activity implements View.OnClickListe
 
     private Handler mainHandler;
 //    private EventLogger eventLogger;
-    private DanielPlayerView simpleExoPlayerView;
+    private PlayerView simpleExoPlayerView;
 
     private DataSource.Factory mediaDataSourceFactory;
     private SimpleExoPlayer player;
@@ -119,7 +119,7 @@ public class ExamplePlayerActivity extends Activity implements View.OnClickListe
         View rootView = findViewById(com.danielpark.player.R.id.root);
         rootView.setOnClickListener(this);
 
-        simpleExoPlayerView = (DanielPlayerView) findViewById(com.danielpark.playersample.R.id.player_view);
+        simpleExoPlayerView = (PlayerView) findViewById(com.danielpark.playersample.R.id.player_view);
         simpleExoPlayerView.setControllerVisibilityListener(this);
         simpleExoPlayerView.setFullscreenListener(this);
         simpleExoPlayerView.requestFocus();

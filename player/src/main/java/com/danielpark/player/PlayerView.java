@@ -41,7 +41,7 @@ import java.util.List;
  * Created by Daniel on 2017-04-06.
  */
 
-public class DanielPlayerView extends FrameLayout{
+public class PlayerView extends FrameLayout{
 
     private final String TAG = "DanielPlayerView";
 
@@ -54,8 +54,8 @@ public class DanielPlayerView extends FrameLayout{
     private final View surfaceView;
     private final ImageView artworkView;
     private final SubtitleView subtitleView;
-    private final DanielPlaybackControlView controller;
-    private final DanielPlayerView.ComponentListener componentListener;
+    private final PlaybackControlView controller;
+    private final PlayerView.ComponentListener componentListener;
     private final FrameLayout overlayFrameLayout;
 
     private SimpleExoPlayer player;
@@ -66,24 +66,24 @@ public class DanielPlayerView extends FrameLayout{
 
     private boolean isLandscapeMode;
 
-    public DanielPlayerView(Context context) {
+    public PlayerView(Context context) {
         this(context, null);
     }
 
-    public DanielPlayerView(Context context, AttributeSet attrs) {
+    public PlayerView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public DanielPlayerView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PlayerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        int playerLayoutId = com.google.android.exoplayer2.R.layout.exo_simple_player_view;
+        int playerLayoutId = R.layout.test_player_view;
         boolean useArtwork = true;
         int defaultArtworkId = 0;
         boolean useController = true;
         int surfaceType = SURFACE_TYPE_SURFACE_VIEW;
         int resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT;
-        int controllerShowTimeoutMs = DanielPlaybackControlView.DEFAULT_SHOW_TIMEOUT_MS;
+        int controllerShowTimeoutMs = PlaybackControlView.DEFAULT_SHOW_TIMEOUT_MS;
         if (attrs != null) {
             TypedArray a = context.getTheme().obtainStyledAttributes(attrs,
                     com.google.android.exoplayer2.R.styleable.SimpleExoPlayerView, 0, 0);
@@ -104,7 +104,7 @@ public class DanielPlayerView extends FrameLayout{
         }
 
         LayoutInflater.from(context).inflate(playerLayoutId, this);
-        componentListener = new DanielPlayerView.ComponentListener();
+        componentListener = new PlayerView.ComponentListener();
         setDescendantFocusability(FOCUS_AFTER_DESCENDANTS);
 
         // Content frame.
@@ -150,7 +150,7 @@ public class DanielPlayerView extends FrameLayout{
         if (controllerPlaceholder != null) {
             // Note: rewindMs and fastForwardMs are passed via attrs, so we don't need to make explicit
             // calls to set them.
-            this.controller = new DanielPlaybackControlView(context, attrs);
+            this.controller = new PlaybackControlView(context, attrs);
             controller.setLayoutParams(controllerPlaceholder.getLayoutParams());
             ViewGroup parent = ((ViewGroup) controllerPlaceholder.getParent());
             int controllerIndex = parent.indexOfChild(controllerPlaceholder);
@@ -225,32 +225,32 @@ public class DanielPlayerView extends FrameLayout{
     /**
      * 화면 orientation 설정
      * @param isLandscape
-     * @param targetWidth {@link DanielPlaybackControlView} 의 width size 설정, 전체 크기는 video size 와 동일
+     * @param targetWidth {@link PlaybackControlView} 의 width size 설정, 전체 크기는 video size 와 동일
      */
     public void setLandscapeMode(boolean isLandscape, int targetWidth) {
         if (this.isLandscapeMode == isLandscape || targetWidth == 0) return;
 
         this.isLandscapeMode = isLandscape;
 
-        try {
-//            if (!isLandscapeMode) {
-                // Daniel (2017-04-06 18:15:12): width 는 deviceWidth 를 기준으로 처리
-                int height = playbackControlViewHeight * targetWidth / playbackControlViewWidth;
-
-                playbackControlViewWidth = targetWidth;
-                playbackControlViewHeight = height;
-
-                ViewGroup.LayoutParams layoutParams = controller.getLayoutParams();
-                layoutParams.width = targetWidth;
-                layoutParams.height = height;
-                controller.setLayoutParams(layoutParams);
-//            }
-//            else {
+//        try {
+////            if (!isLandscapeMode) {
+//                // Daniel (2017-04-06 18:15:12): width 는 deviceWidth 를 기준으로 처리
+//                int height = playbackControlViewHeight * targetWidth / playbackControlViewWidth;
 //
-//            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//                playbackControlViewWidth = targetWidth;
+//                playbackControlViewHeight = height;
+//
+//                ViewGroup.LayoutParams layoutParams = controller.getLayoutParams();
+//                layoutParams.width = targetWidth;
+//                layoutParams.height = height;
+//                controller.setLayoutParams(layoutParams);
+////            }
+////            else {
+////
+////            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     private int playbackControlViewWidth = 0;
@@ -377,27 +377,27 @@ public class DanielPlayerView extends FrameLayout{
     }
 
     /**
-     * Set the {@link DanielPlaybackControlView.VisibilityListener}.
+     * Set the {@link PlaybackControlView.VisibilityListener}.
      *
      * @param listener The listener to be notified about visibility changes.
      */
-    public void setControllerVisibilityListener(DanielPlaybackControlView.VisibilityListener listener) {
+    public void setControllerVisibilityListener(PlaybackControlView.VisibilityListener listener) {
         Assertions.checkState(controller != null);
         controller.setVisibilityListener(listener);
     }
 
     /**
-     * Sets the {@link DanielPlaybackControlView.SeekDispatcher}.
+     * Sets the {@link PlaybackControlView.SeekDispatcher}.
      *
-     * @param seekDispatcher The {@link DanielPlaybackControlView.SeekDispatcher}, or null to use
-     *     {@link DanielPlaybackControlView#DEFAULT_SEEK_DISPATCHER}.
+     * @param seekDispatcher The {@link PlaybackControlView.SeekDispatcher}, or null to use
+     *     {@link PlaybackControlView#DEFAULT_SEEK_DISPATCHER}.
      */
-    public void setSeekDispatcher(DanielPlaybackControlView.SeekDispatcher seekDispatcher) {
+    public void setSeekDispatcher(PlaybackControlView.SeekDispatcher seekDispatcher) {
         Assertions.checkState(controller != null);
         controller.setSeekDispatcher(seekDispatcher);
     }
 
-    public void setFullscreenListener(DanielPlaybackControlView.FullscreenListener fullscreenListener) {
+    public void setFullscreenListener(PlaybackControlView.FullscreenListener fullscreenListener) {
         Assertions.checkState(controller != null);
         controller.setFullscreenListener(fullscreenListener);
     }
@@ -591,49 +591,49 @@ public class DanielPlayerView extends FrameLayout{
 
             // Daniel (2017-04-06 17:30:41):
             // 실제 video size 가 변경시 controller 부분 size 도 같이 변경이 되도록 구현
-            if (controller != null && width != 0 && height != 0) {
-                Log.i(TAG, "video size width : " + width);
-                Log.i(TAG, "video size height : " + height);
-                Log.i(TAG, "pixel width height ratio : " + pixelWidthHeightRatio);
-
-                try {
-                    if (!isLandscapeMode) {
-                        // Daniel (2017-04-06 17:55:29): 현재 Portrait 모드
-                        // TODO: Daniel (2017-04-06 17:40:26): 외부에서 받아온 resizeMode 에 맞춰서 controller resize 해줬으면 한다.
-                        int newWidth = DeviceUtil.getResolutionWidth(getContext());
-                        int newHeight = height * newWidth / width;
-
-                        playbackControlViewWidth = newWidth;
-                        playbackControlViewHeight = newHeight;
-
-                        Log.v(TAG, "newWidth : " + newWidth);
-                        Log.v(TAG, "newHeight : " + newHeight);
-
-                        ViewGroup.LayoutParams layoutParams = controller.getLayoutParams();
-                        layoutParams.width = newWidth;
-                        layoutParams.height = newHeight;
-                        controller.setLayoutParams(layoutParams);
-                    }
-                    else {
-                        // Daniel (2017-04-06 17:50:37): 현재 Landscape 모드
-                        int newWidth = DeviceUtil.getResolutionHeight(getContext());
-                        int newHeight = height * newWidth / width;
-
-                        playbackControlViewWidth = newWidth;
-                        playbackControlViewHeight = newHeight;
-
-                        Log.v(TAG, "newWidth : " + newWidth);
-                        Log.v(TAG, "newHeight : " + newHeight);
-
-                        ViewGroup.LayoutParams layoutParams = controller.getLayoutParams();
-                        layoutParams.width = newWidth;
-                        layoutParams.height = newHeight;
-                        controller.setLayoutParams(layoutParams);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+//            if (controller != null && width != 0 && height != 0) {
+//                Log.i(TAG, "video size width : " + width);
+//                Log.i(TAG, "video size height : " + height);
+//                Log.i(TAG, "pixel width height ratio : " + pixelWidthHeightRatio);
+//
+//                try {
+//                    if (!isLandscapeMode) {
+//                        // Daniel (2017-04-06 17:55:29): 현재 Portrait 모드
+//                        // TODO: Daniel (2017-04-06 17:40:26): 외부에서 받아온 resizeMode 에 맞춰서 controller resize 해줬으면 한다.
+//                        int newWidth = DeviceUtil.getResolutionWidth(getContext());
+//                        int newHeight = height * newWidth / width;
+//
+//                        playbackControlViewWidth = newWidth;
+//                        playbackControlViewHeight = newHeight;
+//
+//                        Log.v(TAG, "newWidth : " + newWidth);
+//                        Log.v(TAG, "newHeight : " + newHeight);
+//
+//                        ViewGroup.LayoutParams layoutParams = controller.getLayoutParams();
+//                        layoutParams.width = newWidth;
+//                        layoutParams.height = newHeight;
+//                        controller.setLayoutParams(layoutParams);
+//                    }
+//                    else {
+//                        // Daniel (2017-04-06 17:50:37): 현재 Landscape 모드
+//                        int newWidth = DeviceUtil.getResolutionHeight(getContext());
+//                        int newHeight = height * newWidth / width;
+//
+//                        playbackControlViewWidth = newWidth;
+//                        playbackControlViewHeight = newHeight;
+//
+//                        Log.v(TAG, "newWidth : " + newWidth);
+//                        Log.v(TAG, "newHeight : " + newHeight);
+//
+//                        ViewGroup.LayoutParams layoutParams = controller.getLayoutParams();
+//                        layoutParams.width = newWidth;
+//                        layoutParams.height = newHeight;
+//                        controller.setLayoutParams(layoutParams);
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
         }
 
         @Override

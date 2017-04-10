@@ -67,8 +67,8 @@ import java.util.UUID;
 /**
  * An activity that plays media using {@link SimpleExoPlayer}.
  */
-public class DanielPlayerActivity extends Activity implements View.OnClickListener, ExoPlayer.EventListener,
-        DanielPlaybackControlView.VisibilityListener, DanielPlaybackControlView.FullscreenListener {
+public class PlayerActivity extends Activity implements View.OnClickListener, ExoPlayer.EventListener,
+        PlaybackControlView.VisibilityListener, PlaybackControlView.FullscreenListener {
 
     public static final String DRM_SCHEME_UUID_EXTRA = "drm_scheme_uuid";
     public static final String DRM_LICENSE_URL = "drm_license_url";
@@ -92,7 +92,7 @@ public class DanielPlayerActivity extends Activity implements View.OnClickListen
 
     private Handler mainHandler;
     private EventLogger eventLogger;
-    private DanielPlayerView simpleExoPlayerView;
+    private PlayerView simpleExoPlayerView;
 
     private DataSource.Factory mediaDataSourceFactory;
     private SimpleExoPlayer player;
@@ -117,11 +117,11 @@ public class DanielPlayerActivity extends Activity implements View.OnClickListen
             CookieHandler.setDefault(DEFAULT_COOKIE_MANAGER);
         }
 
-        setContentView(R.layout.activity_daniel_player);
+        setContentView(R.layout.activity_player);
         View rootView = findViewById(R.id.root);
         rootView.setOnClickListener(this);
 
-        simpleExoPlayerView = (DanielPlayerView) findViewById(R.id.player_view);
+        simpleExoPlayerView = (PlayerView) findViewById(R.id.player_view);
         simpleExoPlayerView.setControllerVisibilityListener(this);
         simpleExoPlayerView.setFullscreenListener(this);
         simpleExoPlayerView.requestFocus();
