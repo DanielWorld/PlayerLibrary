@@ -1,4 +1,4 @@
-package com.danielpark.playersample;
+package com.danielpark.player;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,9 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.danielpark.player.PlaybackControlView;
-import com.danielpark.player.PlayerView;
-import com.danielpark.player.DeviceUtil;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -115,11 +112,11 @@ public class ExamplePlayerActivity extends Activity implements View.OnClickListe
             CookieHandler.setDefault(DEFAULT_COOKIE_MANAGER);
         }
 
-        setContentView(com.danielpark.playersample.R.layout.activity_example_player);
+        setContentView(com.danielpark.player.R.layout.activity_example_player);
         View rootView = findViewById(com.danielpark.player.R.id.root);
         rootView.setOnClickListener(this);
 
-        simpleExoPlayerView = (PlayerView) findViewById(com.danielpark.playersample.R.id.player_view);
+        simpleExoPlayerView = (PlayerView) findViewById(com.danielpark.player.R.id.player_view);
         simpleExoPlayerView.setControllerVisibilityListener(this);
         simpleExoPlayerView.setFullscreenListener(this);
         simpleExoPlayerView.requestFocus();

@@ -9,10 +9,11 @@
         android:label="@string/app_name"
         android:supportsRtl="true">
 
-        <activity
-            android:name=".PlayerActivity"
+        <activity android:name=".ExamplePlayerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="adjustResize|stateUnspecified"/>
+            android:windowSoftInputMode="adjustResize|stateUnspecified"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>
