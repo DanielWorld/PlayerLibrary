@@ -5,7 +5,10 @@
         android:drawable="@drawable/daniel_player_seekbar_background"
         android:left="2dp"><!-- or 1dp -->
     </item>
+    <item android:id="@android:id/secondaryProgress">
+        <clip android:drawable="@drawable/daniel_player_seekbar_secondary_progress"/>
+    </item>
     <item android:id="@android:id/progress">
-        <clip android:drawable="@drawable/daniel_player_seekbar_progress"/>
+        <clip android:drawable="@drawable/daniel_player_seekbar_progress" />
     </item>
 </layer-list>
