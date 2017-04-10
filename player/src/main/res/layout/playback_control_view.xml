@@ -87,11 +87,14 @@
         <SeekBar
             android:id="@id/exo_progress"
             android:layout_width="0dp"
-            android:layout_height="32dp"
+            android:layout_height="30dp"
+            android:minHeight="6dp"
+            android:maxHeight="6dp"
             android:layout_weight="1"
             android:focusable="false"
             android:progressDrawable="@drawable/daniel_player_seekbar"
-            android:thumb="@drawable/weekfree_ic_playbarbig" />
+            android:thumb="@drawable/daniel_play_seekbar_thumb"
+            />
 
         <TextView
             android:id="@id/exo_duration"
