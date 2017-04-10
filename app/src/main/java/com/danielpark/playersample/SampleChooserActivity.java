@@ -17,7 +17,7 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.danielpark.player.ExamplePlayerActivity;
+import com.danielpark.player.BasePlayerActivity;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.upstream.DataSource;
@@ -377,11 +377,11 @@ public class SampleChooserActivity extends Activity {
 
         public Intent buildIntent(Context context) {
             Intent intent = new Intent(context, ExamplePlayerActivity.class);
-            intent.putExtra(ExamplePlayerActivity.PREFER_EXTENSION_DECODERS, preferExtensionDecoders);
+            intent.putExtra(BasePlayerActivity.PREFER_EXTENSION_DECODERS, preferExtensionDecoders);
             if (drmSchemeUuid != null) {
-                intent.putExtra(ExamplePlayerActivity.DRM_SCHEME_UUID_EXTRA, drmSchemeUuid.toString());
-                intent.putExtra(ExamplePlayerActivity.DRM_LICENSE_URL, drmLicenseUrl);
-                intent.putExtra(ExamplePlayerActivity.DRM_KEY_REQUEST_PROPERTIES, drmKeyRequestProperties);
+                intent.putExtra(BasePlayerActivity.DRM_SCHEME_UUID_EXTRA, drmSchemeUuid.toString());
+                intent.putExtra(BasePlayerActivity.DRM_LICENSE_URL, drmLicenseUrl);
+                intent.putExtra(BasePlayerActivity.DRM_KEY_REQUEST_PROPERTIES, drmKeyRequestProperties);
             }
             return intent;
         }
@@ -405,8 +405,8 @@ public class SampleChooserActivity extends Activity {
         public Intent buildIntent(Context context) {
             return super.buildIntent(context)
                     .setData(Uri.parse(uri))
-                    .putExtra(ExamplePlayerActivity.EXTENSION_EXTRA, extension)
-                    .setAction(ExamplePlayerActivity.ACTION_VIEW);
+                    .putExtra(BasePlayerActivity.EXTENSION_EXTRA, extension)
+                    .setAction(BasePlayerActivity.ACTION_VIEW);
         }
 
     }
@@ -431,9 +431,9 @@ public class SampleChooserActivity extends Activity {
                 extensions[i] = children[i].extension;
             }
             return super.buildIntent(context)
-                    .putExtra(ExamplePlayerActivity.URI_LIST_EXTRA, uris)
-                    .putExtra(ExamplePlayerActivity.EXTENSION_LIST_EXTRA, extensions)
-                    .setAction(ExamplePlayerActivity.ACTION_VIEW_LIST);
+                    .putExtra(BasePlayerActivity.URI_LIST_EXTRA, uris)
+                    .putExtra(BasePlayerActivity.EXTENSION_LIST_EXTRA, extensions)
+                    .setAction(BasePlayerActivity.ACTION_VIEW_LIST);
         }
 
     }

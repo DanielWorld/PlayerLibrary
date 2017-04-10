@@ -24,10 +24,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="dslkjfklsdjfklsjfkl\n
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="dslkjfklsdjfklsjfkl\n
 dslkjfklsdjfklsjfkl\ndslkjfklsdjfklsjfkl\ndslkjfklsdjfklsjfkl\ndslkjfklsdjfklsjfkl\ndslkjfklsdjfklsjfkl\n
 dslkjfklsdjfklsjfkl\ndslkjfklsdjfklsjfkl\ndslkjfklsdjfklsjfkl\ndslkjfklsdjfklsjfkl\ndslkjfklsdjfklsjfkl\n
 dslkjfklsdjfklsjfkl\ndslkjfklsdjfklsjfkl\ndslkjfklsdjfklsjfkl\ndslkjfklsdjfklsjfkl\ndslkjfklsdjfklsjfkl\n

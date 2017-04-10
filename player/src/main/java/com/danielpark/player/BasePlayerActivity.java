@@ -57,13 +57,16 @@ import java.net.CookiePolicy;
 import java.util.UUID;
 
 /**
+ * Base Player - If you want to use custom player activity,
+ * <p>1. extend this class</p>
+ * <p>2. override {@link #initViews()}</p>
+ * <br><br>
  * Copyright (C) 2014-2017 daniel@bapul.net
  * Created by Daniel on 2017-04-06.
  */
 
-public class ExamplePlayerActivity extends Activity implements View.OnClickListener, ExoPlayer.EventListener,
+public class BasePlayerActivity extends Activity implements View.OnClickListener, ExoPlayer.EventListener,
         PlaybackControlView.VisibilityListener, PlaybackControlView.FullscreenListener {
-
 
     public static final String DRM_SCHEME_UUID_EXTRA = "drm_scheme_uuid";
     public static final String DRM_LICENSE_URL = "drm_license_url";
@@ -79,23 +82,23 @@ public class ExamplePlayerActivity extends Activity implements View.OnClickListe
     public static final String EXTENSION_LIST_EXTRA = "extension_list";
 
     private static final DefaultBandwidthMeter BANDWIDTH_METER = new DefaultBandwidthMeter();
-    private static final CookieManager DEFAULT_COOKIE_MANAGER;
+    protected static final CookieManager DEFAULT_COOKIE_MANAGER;
     static {
         DEFAULT_COOKIE_MANAGER = new CookieManager();
         DEFAULT_COOKIE_MANAGER.setCookiePolicy(CookiePolicy.ACCEPT_ORIGINAL_SERVER);
     }
 
-    private Handler mainHandler;
+    protected Handler mainHandler;
 //    private EventLogger eventLogger;
-    private PlayerView simpleExoPlayerView;
+    protected PlayerView mPlayerView;
 
-    private DataSource.Factory mediaDataSourceFactory;
+    protected DataSource.Factory mediaDataSourceFactory;
     private SimpleExoPlayer player;
     private DefaultTrackSelector trackSelector;
 //    private TrackSelectionHelper trackSelectionHelper;
     private boolean needRetrySource;
 
-    private boolean shouldAutoPlay;
+    protected boolean shouldAutoPlay;
     private int resumeWindow;
     private long resumePosition;
 
@@ -104,6 +107,7 @@ public class ExamplePlayerActivity extends Activity implements View.OnClickListe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         shouldAutoPlay = true;
         clearResumePosition();
         mediaDataSourceFactory = buildDataSourceFactory(true);
@@ -112,14 +116,21 @@ public class ExamplePlayerActivity extends Activity implements View.OnClickListe
             CookieHandler.setDefault(DEFAULT_COOKIE_MANAGER);
         }
 
-        setContentView(com.danielpark.player.R.layout.activity_example_player);
-        View rootView = findViewById(com.danielpark.player.R.id.root);
-        rootView.setOnClickListener(this);
+        initViews();
+    }
 
-        simpleExoPlayerView = (PlayerView) findViewById(com.danielpark.player.R.id.player_view);
-        simpleExoPlayerView.setControllerVisibilityListener(this);
-        simpleExoPlayerView.setFullscreenListener(this);
-        simpleExoPlayerView.requestFocus();
+    protected void initViews() {
+        setContentView(com.danielpark.player.R.layout.activity_base_player);
+
+        mPlayerView = (PlayerView) findViewById(com.danielpark.player.R.id.player_view);
+        mPlayerView.setControllerVisibilityListener(this);
+        mPlayerView.setFullscreenListener(this);
+        mPlayerView.requestFocus();
+
+        // Daniel (2017-04-11 00:29:03): default landscape mode
+        mPlayerView.setLandscapeMode(true,
+                DeviceUtil.getResolutionHeight(this)
+        );
     }
 
     @Override
@@ -178,9 +189,9 @@ public class ExamplePlayerActivity extends Activity implements View.OnClickListe
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         // Show the controls on any key event.
-        simpleExoPlayerView.showController();
+        mPlayerView.showController();
         // If the event was not handled then see if the player view can handle it as a media key event.
-        return super.dispatchKeyEvent(event) || simpleExoPlayerView.dispatchMediaKeyEvent(event);
+        return super.dispatchKeyEvent(event) || mPlayerView.dispatchMediaKeyEvent(event);
     }
 
     // OnClickListener methods
@@ -239,7 +250,7 @@ public class ExamplePlayerActivity extends Activity implements View.OnClickListe
 //            player.setVideoDebugListener(eventLogger);
 //            player.setMetadataOutput(eventLogger);
 
-            simpleExoPlayerView.setPlayer(player);
+            mPlayerView.setPlayer(player);
             player.setPlayWhenReady(shouldAutoPlay);
         }
         if (needNewPlayer || needRetrySource) {
@@ -341,7 +352,7 @@ public class ExamplePlayerActivity extends Activity implements View.OnClickListe
                 : C.TIME_UNSET;
     }
 
-    private void clearResumePosition() {
+    protected void clearResumePosition() {
         resumeWindow = C.INDEX_UNSET;
         resumePosition = C.TIME_UNSET;
     }
@@ -353,7 +364,7 @@ public class ExamplePlayerActivity extends Activity implements View.OnClickListe
      *     DataSource factory.
      * @return A new DataSource factory.
      */
-    private DataSource.Factory buildDataSourceFactory(boolean useBandwidthMeter) {
+    protected DataSource.Factory buildDataSourceFactory(boolean useBandwidthMeter) {
         return buildDataSourceFactory(useBandwidthMeter ? BANDWIDTH_METER : null);
     }
 
@@ -517,7 +528,7 @@ public class ExamplePlayerActivity extends Activity implements View.OnClickListe
             case ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED:
             case ActivityInfo.SCREEN_ORIENTATION_PORTRAIT:
             case ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT:
-                simpleExoPlayerView.setLandscapeMode(true,
+                mPlayerView.setLandscapeMode(true,
                         DeviceUtil.getResolutionHeight(this)
                 );
 
@@ -525,7 +536,7 @@ public class ExamplePlayerActivity extends Activity implements View.OnClickListe
                 break;
             case ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE:
             case ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE:
-                simpleExoPlayerView.setLandscapeMode(false,
+                mPlayerView.setLandscapeMode(false,
                         DeviceUtil.getResolutionHeight(this));
 
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);

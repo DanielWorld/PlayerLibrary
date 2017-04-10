@@ -9,10 +9,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true">
 
-        <activity android:name=".ExamplePlayerActivity"
+        <activity android:name=".BasePlayerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateUnspecified"
-            android:screenOrientation="portrait"
+            android:screenOrientation="landscape"
             />
     </application>
 
