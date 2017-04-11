@@ -19,7 +19,7 @@ publish {
     groupId = 'com.danielworld'
     artifactId = 'player-library'
     publishVersion = '1.0.1'
-    desc = 'This is custom media player which it uses ExoPlayer'
+    desc = 'A wrapper Media-Player library using ExoPlayer and it helps connection to Media with simple and unified interface code.'
     website = 'https://github.com/DanielWorld/PlayerLibrary'
     issueTracker = "${website}/issues"
     repository = "${website}.git"
