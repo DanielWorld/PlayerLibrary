@@ -20,7 +20,8 @@ public class ExamplePlayerActivity extends BasePlayerActivity {
         mPlayerView.setFullscreenListener(this);
         mPlayerView.requestFocus();
 
+        mPlayerView.setFullscreenIcon(false);
 
-        mPlayerView.setPlayerTitle("Heello! This is player title!");
+        mPlayerView.setPlayerTitle("This is Example title");
     }
 }

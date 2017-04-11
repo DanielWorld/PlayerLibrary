@@ -6,10 +6,10 @@
     android:id="@+id/root">
 
     <com.danielpark.player.PlayerView
-        android:layout_alignParentTop="true"
         android:id="@+id/player_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         app:resize_mode="fit"
         app:show_timeout="5000"
         app:use_controller="true" />

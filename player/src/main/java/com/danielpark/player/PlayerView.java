@@ -231,17 +231,17 @@ public class PlayerView extends FrameLayout{
     }
 
     /**
-     * Sets screen orientation
-     * @param isLandscape
+     * Sets screen orientation for icon change
+     * @param isFullscreen
      *
      */
-    public void setLandscapeMode(boolean isLandscape) {
-        if (this.isLandscapeMode == isLandscape) return;
+    public void setFullscreenIcon(boolean isFullscreen) {
+        if (this.isLandscapeMode == isFullscreen) return;
 
-        this.isLandscapeMode = isLandscape;
+        this.isLandscapeMode = isFullscreen;
 
         if (controller != null) {
-            controller.setFullscreen(isLandscapeMode);
+            controller.setFullscreen(this.isLandscapeMode);
         }
     }
 
