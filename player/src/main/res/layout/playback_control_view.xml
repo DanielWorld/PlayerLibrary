@@ -14,7 +14,22 @@
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/daniel_player_color_opacity_30_424242">
+
+    <TextView
+        android:id="@+id/playerTitle"
+        android:padding="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:textSize="13sp"
+        tools:text="This is new Lecture!"/>
 
     <ImageView
         android:id="@id/exo_play"

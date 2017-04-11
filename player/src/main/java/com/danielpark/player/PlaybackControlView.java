@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.danielpark.player.util.ConvertUtil;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -93,6 +94,7 @@ public class PlaybackControlView extends FrameLayout{
     private static final long MAX_POSITION_FOR_SEEK_TO_PREVIOUS = 3000;
 
     private final PlaybackControlView.ComponentListener componentListener;
+    private final TextView playerTitle;
     private final View previousButton;
     private final View nextButton;
     private final View playButton;
@@ -185,6 +187,8 @@ public class PlaybackControlView extends FrameLayout{
             progressBar.setPadding(ConvertUtil.convertDpToPixel(12), 0, 0, 0);
         }
 
+        playerTitle = (TextView) findViewById(R.id.playerTitle);
+
         playButton = findViewById(com.google.android.exoplayer2.R.id.exo_play);
         if (playButton != null) {
             playButton.setOnClickListener(componentListener);
@@ -239,6 +243,16 @@ public class PlaybackControlView extends FrameLayout{
             player.addListener(componentListener);
         }
         updateAll();
+    }
+
+    /**
+     * Sets player title on the right top edge
+     * @param title
+     */
+    public void setPlayerTitle(String title) {
+        if (this.playerTitle != null) {
+            this.playerTitle.setText(title);
+        }
     }
 
     /**
@@ -360,6 +374,10 @@ public class PlaybackControlView extends FrameLayout{
 
         if (pauseButton != null)
             pauseButton.setSelected(isFullscreen);
+
+        if (playerTitle != null) {
+            playerTitle.setTextSize(isFullscreen ? 20 : 13);
+        }
     }
 
     private void hideAfterTimeout() {

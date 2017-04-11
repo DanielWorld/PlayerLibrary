@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -77,7 +76,7 @@ public class PlayerView extends FrameLayout{
     public PlayerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        int playerLayoutId = R.layout.test_player_view;
+        int playerLayoutId = R.layout.player_view;
         boolean useArtwork = true;
         int defaultArtworkId = 0;
         boolean useController = true;
@@ -223,6 +222,15 @@ public class PlayerView extends FrameLayout{
     }
 
     /**
+     * Sets player title
+     * @param title
+     */
+    public void setPlayerTitle(String title) {
+        if (controller != null)
+            controller.setPlayerTitle(title);
+    }
+
+    /**
      * 화면 orientation 설정
      * @param isLandscape
      *
@@ -232,8 +240,9 @@ public class PlayerView extends FrameLayout{
 
         this.isLandscapeMode = isLandscape;
 
-        if (controller != null)
+        if (controller != null) {
             controller.setFullscreen(isLandscapeMode);
+        }
     }
 
     /**

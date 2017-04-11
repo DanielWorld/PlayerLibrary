@@ -19,5 +19,8 @@ public class ExamplePlayerActivity extends BasePlayerActivity {
         mPlayerView.setControllerVisibilityListener(this);
         mPlayerView.setFullscreenListener(this);
         mPlayerView.requestFocus();
+
+
+        mPlayerView.setPlayerTitle("Heello! This is player title!");
     }
 }

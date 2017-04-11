@@ -1,4 +1,4 @@
-package com.danielpark.player;
+package com.danielpark.player.util;
 
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
