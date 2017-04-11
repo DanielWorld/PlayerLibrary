@@ -171,12 +171,18 @@ public class PlaybackControlView extends FrameLayout{
         LayoutInflater.from(context).inflate(controllerLayoutId, this);
         setDescendantFocusability(FOCUS_AFTER_DESCENDANTS);
 
-        durationView = (TextView) findViewById(com.google.android.exoplayer2.R.id.exo_duration);
-        positionView = (TextView) findViewById(com.google.android.exoplayer2.R.id.exo_position);
+        // TODO: Daniel (2017-04-11 14:16:25): Not going to use these two views for now.
+        durationView = null;
+        positionView = null;
+//        durationView = (TextView) findViewById(com.google.android.exoplayer2.R.id.exo_duration);
+//        positionView = (TextView) findViewById(com.google.android.exoplayer2.R.id.exo_position);
         progressBar = (SeekBar) findViewById(com.google.android.exoplayer2.R.id.exo_progress);
         if (progressBar != null) {
             progressBar.setOnSeekBarChangeListener(componentListener);
             progressBar.setMax(PROGRESS_BAR_MAX);
+
+            // Daniel (2017-04-11 14:26:33): Override padding
+            progressBar.setPadding(ConvertUtil.convertDpToPixel(12), 0, 0, 0);
         }
 
         playButton = findViewById(com.google.android.exoplayer2.R.id.exo_play);

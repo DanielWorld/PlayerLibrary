@@ -3,6 +3,6 @@
 
     <item android:state_selected="true" android:drawable="@drawable/weekfree_ic_learnplaybigbt" />
 
-    <item android:state_selected="false" android:drawable="@drawable/weekfree_ic_learnplaybigbt" />
+    <item android:state_selected="false" android:drawable="@drawable/weekfree_ic_learnplaybt" />
 
 </selector>
