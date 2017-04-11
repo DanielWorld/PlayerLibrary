@@ -32,15 +32,15 @@ dependencies {
   public class YourCustomPlayerActivity extends BasePlayerActivity {
         @Override
         protected void initViews() {
-            setContentView(R.layout.your_custom_player_activity);
+            setContentView(R.layout.your_custom_player_activity); // (Required)
 
-            mPlayerView = (PlayerView) findViewById(R.id.custom_player_view);
+            mPlayerView = (PlayerView) findViewById(R.id.custom_player_view); // (Required)
             mPlayerView.setControllerVisibilityListener(this);
             mPlayerView.setFullscreenListener(this);
-            mPlayerView.requestFocus();
+            mPlayerView.requestFocus(); // (Required)
 
-
-            mPlayerView.setPlayerTitle("Heello! This is player title!");
+            // (Required) portrait vs landscape mode has different icons when activity executed at first.
+            mPlayerView.setFullscreenIcon(false);
         }
   }
   </pre>
