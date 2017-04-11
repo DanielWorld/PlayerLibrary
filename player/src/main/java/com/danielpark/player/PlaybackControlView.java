@@ -184,7 +184,7 @@ public class PlaybackControlView extends FrameLayout{
             progressBar.setMax(PROGRESS_BAR_MAX);
 
             // Daniel (2017-04-11 14:26:33): Override padding
-            progressBar.setPadding(ConvertUtil.convertDpToPixel(12), 0, 0, 0);
+            progressBar.setPadding(ConvertUtil.convertDpToPixel(12), 0, ConvertUtil.convertDpToPixel(12), 0);
         }
 
         playerTitle = (TextView) findViewById(R.id.playerTitle);

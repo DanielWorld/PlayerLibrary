@@ -92,10 +92,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:src="@drawable/daniel_player_fullscreen_button"
-            android:paddingRight="9dp"
-            android:paddingEnd="9dp"
-            android:paddingLeft="9dp"
-            android:paddingStart="9dp"
+            android:paddingRight="12dp"
+            android:paddingEnd="12dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"/>
 
