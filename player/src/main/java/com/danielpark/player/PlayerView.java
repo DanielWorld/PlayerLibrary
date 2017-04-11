@@ -34,7 +34,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import java.util.List;
 
 /**
- * {@link com.google.android.exoplayer2.ui.SimpleExoPlayerView} 에서 몇몇 기능이 변형된 PlayerView
+ * Similar to {@link com.google.android.exoplayer2.ui.SimpleExoPlayerView}
  * <br><br>
  * Copyright (C) 2014-2017 daniel@bapul.net
  * Created by Daniel on 2017-04-06.
@@ -231,7 +231,7 @@ public class PlayerView extends FrameLayout{
     }
 
     /**
-     * 화면 orientation 설정
+     * Sets screen orientation
      * @param isLandscape
      *
      */

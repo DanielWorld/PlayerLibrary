@@ -1,4 +1,29 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'com.novoda:bintray-release:0.3.4'
+    }
+}
 apply plugin: 'com.android.library'
+
+// http://sunghwanjo94.blogspot.kr/2015/07/jcenter.html
+// https://github.com/novoda/bintray-release
+// $ ./gradlew clean build bintrayUpload -PbintrayUser=BINTRAY_USERNAME -PbintrayKey=BINTRAY_KEY -PdryRun=false
+apply plugin: 'com.novoda.bintray-release'
+publish {
+    userOrg = 'danielworld'
+    groupId = 'com.danielworld'
+    artifactId = 'player-library'
+    publishVersion = '1.0.0'
+    desc = 'This is custom media player which it uses ExoPlayer'
+    website = 'https://github.com/DanielWorld/PlayerLibrary'
+    issueTracker = "${website}/issues"
+    repository = "${website}.git"
+}
 
 android {
     compileSdkVersion 25
@@ -8,7 +33,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         consumerProguardFiles 'proguard-rules.pro'
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

@@ -25,8 +25,7 @@ import java.util.Formatter;
 import java.util.Locale;
 
 /**
- * {@link com.google.android.exoplayer2.ui.PlaybackControlView}
- * 에서 기능 단순화 및 커스텀 UI 형태
+ * Similar to {@link com.google.android.exoplayer2.ui.PlaybackControlView}
  * <br><br>
  * Copyright (C) 2014-2017 daniel@bapul.net
  * Created by Daniel on 2017-04-06.
