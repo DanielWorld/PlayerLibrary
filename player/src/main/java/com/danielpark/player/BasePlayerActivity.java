@@ -128,8 +128,7 @@ public class BasePlayerActivity extends Activity implements View.OnClickListener
         mPlayerView.requestFocus();
 
         // Daniel (2017-04-11 00:29:03): default landscape mode
-        mPlayerView.setLandscapeMode(true,
-                DeviceUtil.getResolutionHeight(this)
+        mPlayerView.setLandscapeMode(true
         );
     }
 
@@ -528,16 +527,15 @@ public class BasePlayerActivity extends Activity implements View.OnClickListener
             case ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED:
             case ActivityInfo.SCREEN_ORIENTATION_PORTRAIT:
             case ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT:
-                mPlayerView.setLandscapeMode(true,
-                        DeviceUtil.getResolutionHeight(this)
+                mPlayerView.setLandscapeMode(true
                 );
 
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                 break;
             case ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE:
             case ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE:
-                mPlayerView.setLandscapeMode(false,
-                        DeviceUtil.getResolutionHeight(this));
+                mPlayerView.setLandscapeMode(false
+                );
 
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 break;

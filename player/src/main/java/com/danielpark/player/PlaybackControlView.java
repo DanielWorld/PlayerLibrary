@@ -341,6 +341,21 @@ public class PlaybackControlView extends FrameLayout{
         return getVisibility() == VISIBLE;
     }
 
+    /**
+     * Toggle fullscreen button
+     * @param isFullscreen
+     */
+    public void setFullscreen(boolean isFullscreen) {
+        if (fullscreenButton != null)
+            fullscreenButton.setSelected(isFullscreen);
+
+        if (playButton != null)
+            playButton.setSelected(isFullscreen);
+
+        if (pauseButton != null)
+            pauseButton.setSelected(isFullscreen);
+    }
+
     private void hideAfterTimeout() {
         removeCallbacks(hideAction);
         if (showTimeoutMs > 0) {

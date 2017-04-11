@@ -21,14 +21,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:src="@drawable/weekfree_ic_learnplaybigbt" />
+        android:src="@drawable/daniel_player_play_button" />
 
     <ImageView
         android:id="@id/exo_pause"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:src="@drawable/weekfree_ic_learnpausebigbt" />
+        android:src="@drawable/daniel_player_pause_button" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -93,7 +93,7 @@
             android:layout_weight="1"
             android:focusable="false"
             android:progressDrawable="@drawable/daniel_player_seekbar"
-            android:thumb="@drawable/daniel_play_seekbar_thumb"
+            android:thumb="@drawable/daniel_player_seekbar_thumb"
             />
 
         <TextView
