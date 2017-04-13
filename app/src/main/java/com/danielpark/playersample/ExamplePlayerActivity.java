@@ -32,13 +32,14 @@ public class ExamplePlayerActivity extends BasePlayerActivity {
 
         mPlayerView.setPlayerTitle("This is Example title");
 
+        setEventLoggerEnable(false);
 
         playerTheme = findViewById(R.id.playerTheme);
         contentsScrollView = (ScrollView) findViewById(R.id.contents);
     }
 
     @Override
-    public void onFullscreenItemClick() {
+    public void onFullscreenButtonClick() {
 //        super.onFullscreenItemClick();
 
         switch (getRequestedOrientation()) {

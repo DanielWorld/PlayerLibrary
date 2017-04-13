@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="daniel_player_color_ffffff">#FFFFFF</color>
     <color name="daniel_player_color_39c3c1">#39c3c1</color>
     <color name="daniel_player_color_opacity_30_39c3c1">#4d39c3c1</color>
     <color name="daniel_player_color_opacity_30_424242">#4d424242</color>

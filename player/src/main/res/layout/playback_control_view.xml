@@ -45,6 +45,33 @@
         android:layout_centerInParent="true"
         android:src="@drawable/daniel_player_pause_button" />
 
+    <ImageView
+        android:id="@+id/playRetry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_orange_dark"
+        android:layout_centerInParent="true"
+        android:src="@drawable/daniel_player_play_button"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/playReplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/daniel_player_play_button" />
+
+    <!-- ProgressBar ring -->
+    <ProgressBar
+        android:id="@+id/progressBarLoadingRing"
+        style="@style/Widget.AppCompat.ProgressBar"
+        tools:visibility="visible"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        android:visibility="gone" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

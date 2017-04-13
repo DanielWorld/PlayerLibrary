@@ -386,9 +386,22 @@ public class PlayerView extends FrameLayout{
         controller.setSeekDispatcher(seekDispatcher);
     }
 
+    /**
+     * Sets the {@link com.danielpark.player.PlaybackControlView.FullscreenListener}
+     * @param fullscreenListener
+     */
     public void setFullscreenListener(PlaybackControlView.FullscreenListener fullscreenListener) {
         Assertions.checkState(controller != null);
         controller.setFullscreenListener(fullscreenListener);
+    }
+
+    /**
+     * Sets the {@link com.danielpark.player.PlaybackControlView.RetryListener}
+     * @param retryListener
+     */
+    protected void setRetryListener(PlaybackControlView.RetryListener retryListener) {
+        Assertions.checkState(controller != null);
+        controller.setRetryListener(retryListener);
     }
 
     /**

@@ -2,13 +2,16 @@ package com.danielpark.player;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -69,7 +72,18 @@ public class PlaybackControlView extends FrameLayout{
      */
     public interface FullscreenListener {
 
-        void onFullscreenItemClick();
+        /**
+         * Fullscreen toggle button clicked
+         */
+        void onFullscreenButtonClick();
+    }
+
+    interface RetryListener {
+
+        /**
+         * Retry video button clicked
+         */
+        void onRetryButtonClick();
     }
 
     /**
@@ -98,8 +112,11 @@ public class PlaybackControlView extends FrameLayout{
     private final View nextButton;
     private final View playButton;
     private final View pauseButton;
+    private final View replayButton;
     private final View fastForwardButton;
     private final View rewindButton;
+    private final View retryButton;
+    private final ProgressBar progressBarLoadingRing;
     private final TextView durationView;
     private final TextView positionView;
     private final SeekBar progressBar;
@@ -112,6 +129,7 @@ public class PlaybackControlView extends FrameLayout{
     private PlaybackControlView.SeekDispatcher seekDispatcher;
     private PlaybackControlView.VisibilityListener visibilityListener;
     private PlaybackControlView.FullscreenListener fullscreenListener;
+    private PlaybackControlView.RetryListener retryListener;
 
     private boolean isAttachedToWindow;
     private boolean dragging;
@@ -186,32 +204,60 @@ public class PlaybackControlView extends FrameLayout{
             progressBar.setPadding(ConvertUtil.convertDpToPixel(12), 0, ConvertUtil.convertDpToPixel(12), 0);
         }
 
-        playerTitle = (TextView) findViewById(R.id.playerTitle);
+        playerTitle = (TextView) findViewById(com.danielpark.player.R.id.playerTitle);
 
         playButton = findViewById(com.google.android.exoplayer2.R.id.exo_play);
         if (playButton != null) {
             playButton.setOnClickListener(componentListener);
         }
+
         pauseButton = findViewById(com.google.android.exoplayer2.R.id.exo_pause);
         if (pauseButton != null) {
             pauseButton.setOnClickListener(componentListener);
         }
+
+        replayButton = findViewById(com.danielpark.player.R.id.playReplay);
+        if (replayButton != null) {
+            replayButton.setOnClickListener(componentListener);
+        }
+
+        retryButton = findViewById(com.danielpark.player.R.id.playRetry);
+        if (retryButton != null) {
+            retryButton.setOnClickListener(componentListener);
+        }
+
+        progressBarLoadingRing = (ProgressBar) findViewById(com.danielpark.player.R.id.progressBarLoadingRing);
+        if (progressBarLoadingRing != null) {
+            progressBarLoadingRing.setOnClickListener(componentListener);
+
+            // Daniel (2017-02-17 10:52:07): change Progress loading ring color
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                progressBarLoadingRing.setIndeterminateTintList(
+                        ColorStateList.valueOf(getResources().getColor(com.danielpark.player.R.color.daniel_player_color_ffffff))
+                );
+            }
+        }
+
         previousButton = findViewById(com.google.android.exoplayer2.R.id.exo_prev);
         if (previousButton != null) {
             previousButton.setOnClickListener(componentListener);
         }
+
         nextButton = findViewById(com.google.android.exoplayer2.R.id.exo_next);
         if (nextButton != null) {
             nextButton.setOnClickListener(componentListener);
         }
+
         rewindButton = findViewById(com.google.android.exoplayer2.R.id.exo_rew);
         if (rewindButton != null) {
             rewindButton.setOnClickListener(componentListener);
         }
+
         fastForwardButton = findViewById(com.google.android.exoplayer2.R.id.exo_ffwd);
         if (fastForwardButton != null) {
             fastForwardButton.setOnClickListener(componentListener);
         }
+
         fullscreenButton = findViewById(com.danielpark.player.R.id.fullscreenBtn);
         if (fullscreenButton != null) {
             fullscreenButton.setOnClickListener(componentListener);
@@ -273,8 +319,21 @@ public class PlaybackControlView extends FrameLayout{
         this.seekDispatcher = seekDispatcher == null ? DEFAULT_SEEK_DISPATCHER : seekDispatcher;
     }
 
+    /**
+     * Sets the fullscreen button item click listener
+     * @param fullscreenListener
+     */
     public void setFullscreenListener(PlaybackControlView.FullscreenListener fullscreenListener) {
         this.fullscreenListener = fullscreenListener;
+    }
+
+    /**
+     * Sets the retry button item click listener
+     * <p>Retry Listener should be used in {@link BasePlayerActivity}</p>
+     * @param retryListener
+     */
+    public void setRetryListener(PlaybackControlView.RetryListener retryListener) {
+        this.retryListener = retryListener;
     }
 
     /**
@@ -332,7 +391,6 @@ public class PlaybackControlView extends FrameLayout{
                 visibilityListener.onVisibilityChange(getVisibility());
             }
             updateAll();
-            requestPlayPauseFocus();
         }
         // Call hideAfterTimeout even if already visible to reset the timeout.
         hideAfterTimeout();
@@ -392,27 +450,57 @@ public class PlaybackControlView extends FrameLayout{
     }
 
     private void updateAll() {
-        updatePlayPauseButton();
+        updatePlayPauseRetryLoadingButton();
         updateNavigation();
         updateProgress();
     }
 
-    private void updatePlayPauseButton() {
+    private void updatePlayPauseRetryLoadingButton() {
         if (!isVisible() || !isAttachedToWindow) {
             return;
         }
-        boolean requestPlayPauseFocus = false;
+
         boolean playing = player != null && player.getPlayWhenReady();
-        if (playButton != null) {
-            requestPlayPauseFocus |= playing && playButton.isFocused();
-            playButton.setVisibility(playing ? View.GONE : View.VISIBLE);
-        }
-        if (pauseButton != null) {
-            requestPlayPauseFocus |= !playing && pauseButton.isFocused();
-            pauseButton.setVisibility(!playing ? View.GONE : View.VISIBLE);
-        }
-        if (requestPlayPauseFocus) {
-            requestPlayPauseFocus();
+        final int playerState = player != null ? player.getPlaybackState() : -1;
+
+        switch (playerState) {
+            case ExoPlayer.STATE_IDLE:
+                // Daniel (2017-04-13 16:19:50): No source video, check server or network state
+                if (retryButton != null) retryButton.setVisibility(View.VISIBLE);
+                if (progressBarLoadingRing != null) progressBarLoadingRing.setVisibility(View.GONE);
+                if (playButton != null) playButton.setVisibility(View.GONE);
+                if (pauseButton != null) pauseButton.setVisibility(View.GONE);
+                if (replayButton != null) replayButton.setVisibility(View.GONE);
+                break;
+            case ExoPlayer.STATE_BUFFERING:
+                // Daniel (2017-04-13 16:23:25): The player needs to download source from the current position.
+                if (retryButton != null) retryButton.setVisibility(View.GONE);
+                if (progressBarLoadingRing != null) progressBarLoadingRing.setVisibility(View.VISIBLE);
+                if (playButton != null) playButton.setVisibility(View.GONE);
+                if (pauseButton != null) pauseButton.setVisibility(View.GONE);
+                if (replayButton != null) replayButton.setVisibility(View.GONE);
+                break;
+            case ExoPlayer.STATE_READY:
+                if (retryButton != null) retryButton.setVisibility(View.GONE);
+                if (progressBarLoadingRing != null) progressBarLoadingRing.setVisibility(View.GONE);
+
+                if (playButton != null) {
+                    playButton.setVisibility(playing ? View.GONE : View.VISIBLE);
+                }
+
+                if (pauseButton != null) {
+                    pauseButton.setVisibility(!playing ? View.GONE : View.VISIBLE);
+                }
+                if (replayButton != null) replayButton.setVisibility(View.GONE);
+                break;
+            case ExoPlayer.STATE_ENDED:
+                // Daniel (2017-04-13 16:24:43): Player has ended
+                if (retryButton != null) retryButton.setVisibility(View.GONE);
+                if (progressBarLoadingRing != null) progressBarLoadingRing.setVisibility(View.GONE);
+                if (playButton != null) playButton.setVisibility(View.GONE);
+                if (pauseButton != null) pauseButton.setVisibility(View.GONE);
+                if (replayButton != null) replayButton.setVisibility(View.VISIBLE);
+                break;
         }
     }
 
@@ -477,15 +565,6 @@ public class PlaybackControlView extends FrameLayout{
                 delayMs = 1000;
             }
             postDelayed(updateProgressAction, delayMs);
-        }
-    }
-
-    private void requestPlayPauseFocus() {
-        boolean playing = player != null && player.getPlayWhenReady();
-        if (!playing && playButton != null) {
-            playButton.requestFocus();
-        } else if (playing && pauseButton != null) {
-            pauseButton.requestFocus();
         }
     }
 
@@ -557,6 +636,10 @@ public class PlaybackControlView extends FrameLayout{
         } else if (currentTimeline.getWindow(currentWindowIndex, currentWindow, false).isDynamic) {
             seekTo(currentWindowIndex, C.TIME_UNSET);
         }
+    }
+
+    private void begin() {
+        seekTo(0);
     }
 
     private void rewind() {
@@ -704,7 +787,7 @@ public class PlaybackControlView extends FrameLayout{
 
         @Override
         public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-            updatePlayPauseButton();
+            updatePlayPauseRetryLoadingButton();
             updateProgress();
         }
 
@@ -750,9 +833,14 @@ public class PlaybackControlView extends FrameLayout{
                     player.setPlayWhenReady(true);
                 } else if (pauseButton == view) {
                     player.setPlayWhenReady(false);
+                } else if (replayButton == view) {
+                      begin();
+                } else if (retryButton == view) {
+                    if (retryListener != null)
+                        retryListener.onRetryButtonClick();
                 } else if (fullscreenButton == view) {
                     if (fullscreenListener != null)
-                        fullscreenListener.onFullscreenItemClick();
+                        fullscreenListener.onFullscreenButtonClick();
                 }
             }
             hideAfterTimeout();

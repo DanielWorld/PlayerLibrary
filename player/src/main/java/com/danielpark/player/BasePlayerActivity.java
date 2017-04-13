@@ -66,7 +66,7 @@ import java.util.UUID;
  */
 
 public class BasePlayerActivity extends AppCompatActivity implements View.OnClickListener, ExoPlayer.EventListener,
-        PlaybackControlView.VisibilityListener, PlaybackControlView.FullscreenListener {
+        PlaybackControlView.VisibilityListener, PlaybackControlView.FullscreenListener, PlaybackControlView.RetryListener {
 
     public static final String DRM_SCHEME_UUID_EXTRA = "drm_scheme_uuid";
     public static final String DRM_LICENSE_URL = "drm_license_url";
@@ -89,7 +89,7 @@ public class BasePlayerActivity extends AppCompatActivity implements View.OnClic
     }
 
     protected Handler mainHandler;
-//    private EventLogger eventLogger;
+    private EventLogger eventLogger;
     protected PlayerView mPlayerView;
 
     protected DataSource.Factory mediaDataSourceFactory;
@@ -104,6 +104,8 @@ public class BasePlayerActivity extends AppCompatActivity implements View.OnClic
 
     // Activity lifecycle
 
+    private boolean useEventLogger = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +119,11 @@ public class BasePlayerActivity extends AppCompatActivity implements View.OnClic
         }
 
         initViews();
+
+        // Daniel (2017-04-13 16:52:27): Retry listener must be set in this Activity
+        if (mPlayerView != null) {
+            mPlayerView.setRetryListener(this);
+        }
     }
 
     protected void initViews() {
@@ -129,6 +136,9 @@ public class BasePlayerActivity extends AppCompatActivity implements View.OnClic
 
         // Daniel (2017-04-11 00:29:03): default landscape mode
         mPlayerView.setFullscreenIcon(true);
+
+        // Daniel (2017-04-13 15:35:05): Don't use Event Logger
+        setEventLoggerEnable(false);
     }
 
     @Override
@@ -204,6 +214,14 @@ public class BasePlayerActivity extends AppCompatActivity implements View.OnClic
     public void onVisibilityChange(int visibility) {
     }
 
+    /**
+     * Set event logger to watch log
+     * @param useEventLogger
+     */
+    protected void setEventLoggerEnable(boolean useEventLogger) {
+        this.useEventLogger = useEventLogger;
+    }
+
     // Internal methods
 
     private void initializePlayer() {
@@ -242,11 +260,13 @@ public class BasePlayerActivity extends AppCompatActivity implements View.OnClic
                     drmSessionManager, extensionRendererMode);
             player.addListener(this);
 
-//            eventLogger = new EventLogger(trackSelector);
-//            player.addListener(eventLogger);
-//            player.setAudioDebugListener(eventLogger);
-//            player.setVideoDebugListener(eventLogger);
-//            player.setMetadataOutput(eventLogger);
+            if (useEventLogger) {
+                eventLogger = new EventLogger(trackSelector);
+                player.addListener(eventLogger);
+                player.setAudioDebugListener(eventLogger);
+                player.setVideoDebugListener(eventLogger);
+                player.setMetadataOutput(eventLogger);
+            }
 
             mPlayerView.setPlayer(player);
             player.setPlayWhenReady(shouldAutoPlay);
@@ -300,15 +320,15 @@ public class BasePlayerActivity extends AppCompatActivity implements View.OnClic
         switch (type) {
             case C.TYPE_SS:
                 return new SsMediaSource(uri, buildDataSourceFactory(false),
-                        new DefaultSsChunkSource.Factory(mediaDataSourceFactory), mainHandler, null);
+                        new DefaultSsChunkSource.Factory(mediaDataSourceFactory), mainHandler, eventLogger);
             case C.TYPE_DASH:
                 return new DashMediaSource(uri, buildDataSourceFactory(false),
-                        new DefaultDashChunkSource.Factory(mediaDataSourceFactory), mainHandler, null);
+                        new DefaultDashChunkSource.Factory(mediaDataSourceFactory), mainHandler, eventLogger);
             case C.TYPE_HLS:
-                return new HlsMediaSource(uri, mediaDataSourceFactory, mainHandler, null);
+                return new HlsMediaSource(uri, mediaDataSourceFactory, mainHandler, eventLogger);
             case C.TYPE_OTHER:
                 return new ExtractorMediaSource(uri, mediaDataSourceFactory, new DefaultExtractorsFactory(),
-                        mainHandler, null);
+                        mainHandler, eventLogger);
             default: {
                 throw new IllegalStateException("Unsupported type: " + type);
             }
@@ -329,7 +349,7 @@ public class BasePlayerActivity extends AppCompatActivity implements View.OnClic
 //            }
 //        }
         return new DefaultDrmSessionManager<>(uuid,
-                FrameworkMediaDrm.newInstance(uuid), drmCallback, null, mainHandler, null);
+                FrameworkMediaDrm.newInstance(uuid), drmCallback, null, mainHandler, eventLogger);
     }
 
     private void releasePlayer() {
@@ -340,7 +360,7 @@ public class BasePlayerActivity extends AppCompatActivity implements View.OnClic
             player = null;
             trackSelector = null;
 //            trackSelectionHelper = null;
-//            eventLogger = null;
+            eventLogger = null;
         }
     }
 
@@ -521,7 +541,7 @@ public class BasePlayerActivity extends AppCompatActivity implements View.OnClic
 
 
     @Override
-    public void onFullscreenItemClick() {
+    public void onFullscreenButtonClick() {
         switch (getRequestedOrientation()) {
             case ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED:
             case ActivityInfo.SCREEN_ORIENTATION_PORTRAIT:
@@ -537,6 +557,11 @@ public class BasePlayerActivity extends AppCompatActivity implements View.OnClic
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 break;
         }
+    }
+
+    @Override
+    public void onRetryButtonClick() {
+        initializePlayer();
     }
 
     @Override
