@@ -35,12 +35,14 @@ dependencies {
             setContentView(R.layout.your_custom_player_activity); // (Required)
 
             mPlayerView = (PlayerView) findViewById(R.id.custom_player_view); // (Required)
-            mPlayerView.setControllerVisibilityListener(this);
-            mPlayerView.setFullscreenListener(this);
+            mPlayerView.setControllerVisibilityListener(this); // (Required) let the developer use controller event!
+            // mPlayerView.setFullscreenListener(this);    // No need! until you manage fullscreen event by yourself!
             mPlayerView.requestFocus(); // (Required)
 
             // (Required) portrait vs landscape mode has different icons when activity executed at first.
             mPlayerView.setFullscreenIcon(false);
+            
+            // setEventLoggerEnable(true); // Recommend to use this only DEBUG mode
         }
   }
   </pre>
