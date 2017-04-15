@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.danielpark.player.view.NewAspectRatioFrameLayout;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -27,7 +28,6 @@ import com.google.android.exoplayer2.text.Cue;
 import com.google.android.exoplayer2.text.TextRenderer;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
-import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.SubtitleView;
 import com.google.android.exoplayer2.util.Assertions;
 
@@ -48,7 +48,7 @@ public class PlayerView extends FrameLayout{
     private static final int SURFACE_TYPE_SURFACE_VIEW = 1;
     private static final int SURFACE_TYPE_TEXTURE_VIEW = 2;
 
-    private final AspectRatioFrameLayout contentFrame;
+    private final NewAspectRatioFrameLayout contentFrame;
     private final View shutterView;
     private final View surfaceView;
     private final ImageView artworkView;
@@ -81,7 +81,7 @@ public class PlayerView extends FrameLayout{
         int defaultArtworkId = 0;
         boolean useController = true;
         int surfaceType = SURFACE_TYPE_SURFACE_VIEW;
-        int resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT;
+        int resizeMode = NewAspectRatioFrameLayout.RESIZE_MODE_FIT;
         int controllerShowTimeoutMs = PlaybackControlView.DEFAULT_SHOW_TIMEOUT_MS;
         if (attrs != null) {
             TypedArray a = context.getTheme().obtainStyledAttributes(attrs,
@@ -107,7 +107,7 @@ public class PlayerView extends FrameLayout{
         setDescendantFocusability(FOCUS_AFTER_DESCENDANTS);
 
         // Content frame.
-        contentFrame = (AspectRatioFrameLayout) findViewById(com.google.android.exoplayer2.R.id.exo_content_frame);
+        contentFrame = (NewAspectRatioFrameLayout) findViewById(com.google.android.exoplayer2.R.id.exo_content_frame);
         if (contentFrame != null) {
             setResizeModeRaw(contentFrame, resizeMode);
         }
@@ -216,7 +216,7 @@ public class PlayerView extends FrameLayout{
      *
      * @param resizeMode The resize mode.
      */
-    public void setResizeMode(@AspectRatioFrameLayout.ResizeMode int resizeMode) {
+    public void setResizeMode(@NewAspectRatioFrameLayout.ResizeMode int resizeMode) {
         Assertions.checkState(contentFrame != null);
         contentFrame.setResizeMode(resizeMode);
     }
@@ -565,7 +565,7 @@ public class PlayerView extends FrameLayout{
     }
 
     @SuppressWarnings("ResourceType")
-    private static void setResizeModeRaw(AspectRatioFrameLayout aspectRatioFrame, int resizeMode) {
+    private static void setResizeModeRaw(NewAspectRatioFrameLayout aspectRatioFrame, int resizeMode) {
         aspectRatioFrame.setResizeMode(resizeMode);
     }
 
