@@ -6,6 +6,8 @@ import android.support.annotation.IntDef;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
+import com.danielpark.player.util.DeviceUtil;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -23,7 +25,7 @@ public final class NewAspectRatioFrameLayout extends FrameLayout{
      * Resize modes for {@link NewAspectRatioFrameLayout}.
      */
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({RESIZE_MODE_FIT, RESIZE_MODE_FIXED_WIDTH, RESIZE_MODE_FIXED_HEIGHT, RESIZE_MODE_FILL})
+    @IntDef({RESIZE_MODE_FIT, RESIZE_MODE_FIXED_WIDTH, RESIZE_MODE_FIXED_HEIGHT, RESIZE_MODE_FILL, RESIZE_MODE_FIT_TO_SCREEN})
     public @interface ResizeMode {}
 
     /**
@@ -42,6 +44,10 @@ public final class NewAspectRatioFrameLayout extends FrameLayout{
      * The specified aspect ratio is ignored.
      */
     public static final int RESIZE_MODE_FILL = 3;
+    /**
+     * The size is fit to screen forcefully while maintaining aspect ratio
+     */
+    public static final int RESIZE_MODE_FIT_TO_SCREEN = 4;
 
     /**
      * The {@link FrameLayout} will not resize itself if the fractional difference between its natural
@@ -66,9 +72,9 @@ public final class NewAspectRatioFrameLayout extends FrameLayout{
         resizeMode = RESIZE_MODE_FIT;
         if (attrs != null) {
             TypedArray a = context.getTheme().obtainStyledAttributes(attrs,
-                    com.google.android.exoplayer2.R.styleable.AspectRatioFrameLayout, 0, 0);
+                    com.danielpark.player.R.styleable.NewAspectRatioFrameLayout, 0, 0);
             try {
-                resizeMode = a.getInt(com.google.android.exoplayer2.R.styleable.AspectRatioFrameLayout_resize_mode, RESIZE_MODE_FIT);
+                resizeMode = a.getInt(com.danielpark.player.R.styleable.NewAspectRatioFrameLayout_resize_mode, RESIZE_MODE_FIT);
             } finally {
                 a.recycle();
             }
@@ -122,6 +128,21 @@ public final class NewAspectRatioFrameLayout extends FrameLayout{
                 break;
             case RESIZE_MODE_FIXED_HEIGHT:
                 width = (int) (height * videoAspectRatio);
+                break;
+            case RESIZE_MODE_FIT_TO_SCREEN:
+                width = DeviceUtil.getResolutionWidth(getContext());
+                height = DeviceUtil.getResolutionHeight(getContext());
+
+                viewAspectRatio = (float) width / height;
+
+                float screenAspectDeformation =
+                        videoAspectRatio / viewAspectRatio - 1;
+
+                if (screenAspectDeformation > 0) {
+                    height = (int) (width / videoAspectRatio);
+                } else {
+                    width = (int) (height * videoAspectRatio);
+                }
                 break;
             default:
                 if (aspectDeformation > 0) {

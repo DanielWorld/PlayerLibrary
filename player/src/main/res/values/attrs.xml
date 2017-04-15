@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="NewAspectRatioFrameLayout">
+        <attr name="resize_mode"/>
+    </declare-styleable>
+
+    <!-- Must be kept in sync with NewAspectRatioFrameLayout -->
+    <attr name="resize_mode" format="enum">
+        <enum name="fit" value="0"/>
+        <enum name="fixed_width" value="1"/>
+        <enum name="fixed_height" value="2"/>
+        <enum name="fill" value="3"/>
+        <enum name="fit_to_screen" value="4"/>
+    </attr>
+</resources>

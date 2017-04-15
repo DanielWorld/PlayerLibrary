@@ -13,6 +13,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateUnspecified"
             android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             />
     </application>
 
