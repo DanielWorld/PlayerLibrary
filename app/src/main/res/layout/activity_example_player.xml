@@ -12,28 +12,29 @@
         android:layout_height="match_parent"
         android:background="#000000"/>
 
-    <com.danielpark.player.PlayerView
-        android:id="@+id/player_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        app:resize_mode="fit"
-        app:show_timeout="5000"
-        app:use_controller="true" />
 
     <ScrollView
         android:id="@+id/contents"
-        android:layout_below="@+id/player_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="visible">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
+
+            <com.danielpark.player.PlayerView
+                android:id="@+id/player_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                app:resize_mode="fixed_width"
+                app:show_timeout="5000"
+                app:use_controller="true" />
 
             <TextView
+                android:id="@+id/contentText"
+                android:layout_below="@+id/player_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="dslkjfklsdjfklsjfkl\n
@@ -43,7 +44,7 @@ dslkjfklsdjfklsjfkl\ndslkjfklsdjfklsjfkl\ndslkjfklsdjfklsjfkl\ndslkjfklsdjfklsjf
 dslkjfklsdjfklsjfkl\ndslkjfklsdjfklsjfkl\ndslkjfklsdjfklsjfkl\ndslkjfklsdjfklsjfkl\ndslkjfklsdjfklsjfkl\n
 dslkjfklsdjfklsjfkl\ndslkjfklsdjfklsjfkl\ndslkjfklsdjfklsjfkl\ndslkjfklsdjfklsjfkl\ndslkjfklsdjfklsjfkl\n"/>
 
-        </LinearLayout>
+        </RelativeLayout>
     </ScrollView>
 
 

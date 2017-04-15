@@ -4,9 +4,11 @@ import android.content.pm.ActivityInfo;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.danielpark.player.BasePlayerActivity;
 import com.danielpark.player.PlayerView;
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 
 /**
  * Copyright (c) 2014-2017 op7773hons@gmail.com
@@ -17,6 +19,7 @@ public class ExamplePlayerActivity extends BasePlayerActivity {
 
     private View playerTheme;
     private ScrollView contentsScrollView;
+    private TextView contentText;
 
     @Override
     protected void initViews() {
@@ -36,6 +39,7 @@ public class ExamplePlayerActivity extends BasePlayerActivity {
 
         playerTheme = findViewById(R.id.playerTheme);
         contentsScrollView = (ScrollView) findViewById(R.id.contents);
+        contentText = (TextView) findViewById(R.id.contentText);
     }
 
     @Override
@@ -53,7 +57,7 @@ public class ExamplePlayerActivity extends BasePlayerActivity {
                 rl.addRule(RelativeLayout.CENTER_IN_PARENT);
 
                 playerTheme.setVisibility(View.VISIBLE);
-                contentsScrollView.setVisibility(View.GONE);
+                contentText.setVisibility(View.GONE);
 
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                 break;
@@ -66,7 +70,7 @@ public class ExamplePlayerActivity extends BasePlayerActivity {
                 rl2.addRule(RelativeLayout.CENTER_IN_PARENT, 0);
 
                 playerTheme.setVisibility(View.GONE);
-                contentsScrollView.setVisibility(View.VISIBLE);
+                contentText.setVisibility(View.VISIBLE);
 
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 break;
