@@ -18,7 +18,7 @@ publish {
     userOrg = 'danielworld'
     groupId = 'com.danielworld'
     artifactId = 'player-library'
-    publishVersion = '1.0.3'
+    publishVersion = '1.0.4'
     desc = 'A wrapper Media-Player library using ExoPlayer and it helps connection to Media with simple and unified interface code.'
     website = 'https://github.com/DanielWorld/PlayerLibrary'
     issueTracker = "${website}/issues"
@@ -33,7 +33,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0.3"
+        versionName "1.0.4"
         consumerProguardFiles 'proguard-rules.pro'
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
