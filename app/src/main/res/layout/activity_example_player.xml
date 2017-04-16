@@ -25,10 +25,9 @@
 
             <com.danielpark.player.PlayerView
                 android:id="@+id/player_view"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                app:resize_mode="fixed_width"
+                app:resize_mode="fit_to_screen"
                 app:show_timeout="5000"
                 app:use_controller="true" />
 

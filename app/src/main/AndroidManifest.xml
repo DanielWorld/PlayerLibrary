@@ -22,11 +22,10 @@
         </activity>
 
         <activity
-            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:name=".ExamplePlayerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateUnspecified"
-            android:screenOrientation="portrait"/>
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
 
     </application>
 

@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -548,15 +550,47 @@ public class BasePlayerActivity extends AppCompatActivity implements View.OnClic
             case ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT:
                 mPlayerView.setFullscreenIcon(true);
 
+                hideSystemUI();
+
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                 break;
             case ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE:
             case ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE:
                 mPlayerView.setFullscreenIcon(false);
 
+                showSystemUI();
+
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 break;
         }
+    }
+
+    // This snippet hides the system bars.
+    protected void hideSystemUI() {
+        // https://developer.android.com/training/system-ui/immersive.html
+
+        // Set the IMMERSIVE flag.
+        // Set the content to appear under the system bars so that the content
+        // doesn't resize when the system bars hide and show.
+//        getWindow().getDecorView()
+//                .setSystemUiVisibility(
+//View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+//                | View.SYSTEM_UI_FLAG_IMMERSIVE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            getWindow().getDecorView()
+                    .setSystemUiVisibility(
+                            View.SYSTEM_UI_FLAG_FULLSCREEN );
+        } else {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
+
+    }
+
+    // This snippet shows the system bars. It does this by removing all the flags
+// except for the ones that make the content appear under the system bars.
+    protected void showSystemUI() {
+        getWindow().getDecorView().setSystemUiVisibility(0);
     }
 
     @Override

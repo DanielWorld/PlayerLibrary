@@ -2,6 +2,7 @@ package com.danielpark.playersample;
 
 import android.content.pm.ActivityInfo;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -52,12 +53,16 @@ public class ExamplePlayerActivity extends BasePlayerActivity {
             case ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT:
                 mPlayerView.setFullscreenIcon(true);
 
+                contentText.setVisibility(View.GONE);
+                playerTheme.setVisibility(View.VISIBLE);
+
+                contentsScrollView.requestLayout();
+
                 RelativeLayout.LayoutParams rl = (RelativeLayout.LayoutParams) mPlayerView.getLayoutParams();
                 rl.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
                 rl.addRule(RelativeLayout.CENTER_IN_PARENT);
 
-                playerTheme.setVisibility(View.VISIBLE);
-                contentText.setVisibility(View.GONE);
+                hideSystemUI();
 
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                 break;
@@ -65,12 +70,16 @@ public class ExamplePlayerActivity extends BasePlayerActivity {
             case ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE:
                 mPlayerView.setFullscreenIcon(false);
 
+                contentText.setVisibility(View.VISIBLE);
+                playerTheme.setVisibility(View.GONE);
+
+                contentsScrollView.requestLayout();
+
                 RelativeLayout.LayoutParams rl2 = (RelativeLayout.LayoutParams) mPlayerView.getLayoutParams();
                 rl2.addRule(RelativeLayout.ALIGN_PARENT_TOP);
                 rl2.addRule(RelativeLayout.CENTER_IN_PARENT, 0);
 
-                playerTheme.setVisibility(View.GONE);
-                contentText.setVisibility(View.VISIBLE);
+                showSystemUI();
 
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 break;
