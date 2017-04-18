@@ -129,6 +129,8 @@ public class BasePlayerActivity extends AppCompatActivity implements View.OnClic
     }
 
     protected void initViews() {
+        hideSystemUI();
+
         setContentView(com.danielpark.player.R.layout.activity_base_player);
 
         mPlayerView = (PlayerView) findViewById(com.danielpark.player.R.id.player_view);
@@ -544,25 +546,27 @@ public class BasePlayerActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onFullscreenButtonClick() {
-        switch (getRequestedOrientation()) {
-            case ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED:
-            case ActivityInfo.SCREEN_ORIENTATION_PORTRAIT:
-            case ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT:
-                mPlayerView.setFullscreenIcon(true);
 
-                hideSystemUI();
-
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                break;
-            case ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE:
-            case ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE:
-                mPlayerView.setFullscreenIcon(false);
-
-                showSystemUI();
-
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                break;
-        }
+        finish();
+//        switch (getRequestedOrientation()) {
+//            case ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED:
+//            case ActivityInfo.SCREEN_ORIENTATION_PORTRAIT:
+//            case ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT:
+//                mPlayerView.setFullscreenIcon(true);
+//
+//                hideSystemUI();
+//
+//                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//                break;
+//            case ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE:
+//            case ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE:
+//                mPlayerView.setFullscreenIcon(false);
+//
+//                showSystemUI();
+//
+//                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//                break;
+//        }
     }
 
     // This snippet hides the system bars.
